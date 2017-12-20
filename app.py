@@ -14,7 +14,8 @@ app.config['SECRET_KEY'] = "verysecret"
 
 api = Api(app)
 parser = reqparse.RequestParser()
-parser.add_argument('data',type=inputs.regex('^\D+$') , help="data has to be a string")
+# parser.add_argument('data',type=inputs.regex('^\D+$') , help="data has to be a string")
+parser.add_argument('data',type=int , help="data has to be a number")
 
 todos = {}
 
@@ -48,7 +49,7 @@ def background_thread():
     count = 0
     #Add data to the server using: curl http://localhost:5000/todo1 -d "data=it works!" -X PUT
     if todos.get("todo1"):
-        socketio.emit('my_response',
+        socketio.emit('my_restful_data',
                     {'data': todos["todo1"], 'count': count},
                     namespace='/test')
 
