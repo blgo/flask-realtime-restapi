@@ -5,6 +5,7 @@ from threading import Lock
 import eventlet
 
 thread = None
+thread_lock = Lock()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "verysecret"
@@ -27,7 +28,8 @@ class TodoSimple(Resource):
         
         # use websockets in background when new data is created
         global thread
-        thread = socketio.start_background_task(target=background_thread)
+        with thread_lock:
+            thread = socketio.start_background_task(target=background_thread)
         
         return {todo_id:todos[todo_id]}
 
