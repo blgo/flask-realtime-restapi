@@ -49,6 +49,11 @@ $(document).ready(function() {
         $('#ping-pong').text(Math.round(10 * sum / ping_pong_times.length) / 10);
     });
 
+    //Show data received on RESTful endpoint on real time:
+    socket.on('my_restful_data', function(msg) {
+        $('#restful-data').text(Math.round(msg.data));
+    });
+
     // Handlers for the different forms in the page.
     // These accept data from the user and send it to the server in a
     // variety of ways
