@@ -1,35 +1,18 @@
-from flask import render_template
-from flask_restful import Api
+
 # from threading import Lock
+from flask import render_template
 
-from realtimeapp.resources.restfulapi import TodoSimple
+from realtimeapp import configure_app, app
+from realtimeapp.socketio import create_socketio, socketio
+from realtimeapp.restful import create_api#, api
 
-from realtimeapp.socketio import create_app, socketio
+# Initialise app
+app = configure_app(debug=True)
 
-app = create_app(debug=True)
+# Test endpoint: # curl http://localhost:5000/todo1 -d "data=it works!" -X PUT
+create_api(app)
+create_socketio(app)
 
-
-# RESTful api
-# Test endpoint:
-# curl http://localhost:5000/todo1 -d "data=it works!" -X PUT
-api = Api(app)
-api.add_resource(TodoSimple, '/<string:todo_id>')
-
-# thread = None
-# thread_lock = Lock()
-
-# # use websockets in background when new data is created
-# global thread
-# with thread_lock:
-#     thread = socketio.start_background_task(target=background_thread)
-
-
-# def background_thread():
-#     """Example of how to send server generated events to clients."""
-#     count = 0
-#     socketio.emit('my_restful_data',
-#                 {'data': data 'count': count},
-#                 namespace='/test')
 
 
 @app.route('/')

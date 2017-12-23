@@ -1,17 +1,12 @@
-from flask import Flask
 from flask_socketio import SocketIO
 import eventlet
 
-# Websockets eventlet
-async_mode = 'eventlet'
+async_mode='eventlet'
 socketio = SocketIO()
 
-def create_app(debug=False):
+def create_socketio(app):
     """Create an application."""
 
-    app = Flask(__name__)
-    app.config['SECRET_KEY'] = "verysecret"
-    
     from . import events
 
     socketio.init_app(app, async_mode=async_mode)

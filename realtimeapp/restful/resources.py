@@ -1,5 +1,6 @@
 from flask import request
 from flask_restful import Resource, reqparse#, inputs
+from . import api
 
 parser = reqparse.RequestParser()
 # parser.add_argument('data',type=inputs.regex('^\D+$') , help="data has to be a string")
