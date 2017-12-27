@@ -1,0 +1,23 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# virtualenv
+.venv
+
+# vs code settings
+.vscode
+
+# Nose ids
+.noseids
+
+# environment variables
+#.env # Commented out for testing Docker image
+
+# other files
+*.pdf
+Dockerfile
+README.md
+
