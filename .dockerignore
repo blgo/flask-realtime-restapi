@@ -14,10 +14,12 @@ __pycache__/
 .noseids
 
 # environment variables
-#.env # Commented out for testing Docker image
+.env
 
 # other files
 *.pdf
 Dockerfile
 README.md
 
+# unit tests
+tests
