@@ -7,10 +7,6 @@ def test_message():
 
 @socketio.on('connect', namespace='/test')
 def test_connect():
-    # global thread
-    # with thread_lock:
-    #     if thread is None:
-    #         thread = socketio.start_background_task(target=background_thread)
     emit('my_response', {'data': 'Connected', 'count': 0})
 
 @socketio.on('my_ping', namespace='/test')
