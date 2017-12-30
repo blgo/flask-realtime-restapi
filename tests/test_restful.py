@@ -6,7 +6,7 @@ from flask import request
 def test_addtodo():
     app = configure_app()
     app.testing = True
-    restful.create_api(app)
+    create_api(app)
     testapp = app.test_client()
     rv = testapp.get('/') 
     data = rv.data.decode("utf-8")
