@@ -17,9 +17,9 @@ def test_addtodo():
      
     data = rv.data.decode("utf-8")
 
-    assert_in(data,'{"todo1": "works"}\n')
+    assert_in("works",data)
 
     rv = testapp.get('/todo1') 
     data = rv.data.decode("utf-8")
 
-    assert_equal(data,'{"todo1": "works"}\n')
+    assert_in('works',data)

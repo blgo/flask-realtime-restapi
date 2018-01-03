@@ -10,13 +10,14 @@ $(document).ready(function() {
     // The connection URL has the following format:
     //     http[s]://<domain>:<port>[/<namespace>]
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
-
+    
     // Event handler for new connections.
     // The callback function is invoked when a connection with the
     // server is established.
     socket.on('connect', function() {
         socket.emit('my_event', {data: 'Client reponse: I\'m connected!'});
     });
+
 
     // Event handler for server sent data.
     // The callback function is invoked whenever the server emits data
@@ -25,6 +26,7 @@ $(document).ready(function() {
     socket.on('my_response', function(msg) {
         $('#log').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
     });
+
 
     // Interval function that tests message latency by sending a "ping"
     // message. The server then responds with a "pong" message and the
@@ -85,4 +87,6 @@ $(document).ready(function() {
     //     socket.emit('disconnect_request');
     //     return false;
     // });
+
+
 });
