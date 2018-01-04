@@ -6,7 +6,7 @@ import time
 from nose.tools import *
 
 # Initialise app
-app = configure_app(debug=True)
+app = configure_app()
 
 # Initialise flask-socketio
 create_socketio(app)
