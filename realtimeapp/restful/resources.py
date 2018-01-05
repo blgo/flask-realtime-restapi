@@ -1,19 +1,74 @@
 from flask import request
-from flask_restful import Resource, reqparse#, inputs
+from flask_restful import Resource, reqparse, abort, inputs
+import datetime
 from . import api
 
+# TODO: Use https://flask-restful.readthedocs.io/en/latest/quickstart.html#data-formatting
+# Sensor dictionary for temperature/humidity reading
+# THERMOHYGRO = {
+#     <string:RoomNameYYYYMMDDHHmmss> : { 'date': <datetime.isoformat>,
+#                                         'room' = <string: room name>,
+#                                         'temperature': <int:Celcius>,
+#                                         'humidity': <int> },
+#     (...)
+# }
+
+THERMOHYGRO = {}
+
 parser = reqparse.RequestParser()
-# parser.add_argument('data',type=inputs.regex('^\D+$') , help="data has to be a string")
-parser.add_argument('data',type=int , help="data has to be a number")
+parser.add_argument('date',type=inputs.datetime_from_iso8601 , 
+    help="<date> has to be in datetime isoformat: 2018-01-05T15:48:11.893728+00:00")
+parser.add_argument('room',type=inputs.regex('^\D+$')  , 
+    help="<room> has to be a word 'string'")
+parser.add_argument('temperature',type=int , 
+    help="<temperature> has to be a number 'int'")
+parser.add_argument('humidity',type=int , 
+    help="<temperature> has to be a number 'int'")
 
-todos = {}
 
-#Add data to the server using: curl http://localhost:5000/todo1 -d "data=it works!" -X PUT
+# curl http://localhost:5000/thermohygro -H "Content-Type: application/json" -d '{ "date" : "2018-01-05T15:48:11.893728+00:00",  "room" : "bedroom", "temperature" : 25, "humidity" : 51 }' -X POST 
+# Python can generate this date: 
+# datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
 
-class TodoSimple(Resource):
-    def get(self, todo_id):
-        return {todo_id:todos[todo_id]}
+def abort_if_data_doesnt_exist(reading_id):
+    if reading_id not in THERMOHYGRO:
+        abort(404, message="Sensor reading {} doesn't exist".format(reading_id))
 
-    def put(self, todo_id):
-        todos[todo_id] = request.form['data']
-        return {todo_id:todos[todo_id]}
+
+class Reading(Resource):
+    def get(self, reading_id):
+        abort_if_data_doesnt_exist(reading_id)
+        return THERMOHYGRO[reading_id]
+
+    def delete(self, reading_id):
+        abort_if_data_doesnt_exist(reading_id)
+        del THERMOHYGRO[reading_id]
+        return '', 204
+
+    def put(self, reading_id):
+        args = parser.parse_args()
+        readingdata = { 'date': str(args['date']),
+                        'room': args['room'],
+                        'temperature': args['temperature'],
+                        'humidity': args['humidity'],
+        }
+        THERMOHYGRO[reading_id] = readingdata
+        return readingdata, 201
+
+
+class ReadingList(Resource):
+    def get(self):
+        return THERMOHYGRO
+
+    def post(self):
+        args = parser.parse_args()
+        room =  args['room']
+        reading_id = "{0}{1}".format(room, datetime.datetime.now().strftime("%Y%M%d%H%m%S"))
+        readingdata = {  'date': str(args['date']),
+                        'room': room,
+                        'temperature': args['temperature'],
+                        'humidity': args['humidity']
+        }
+        THERMOHYGRO[reading_id] = readingdata
+        return THERMOHYGRO[reading_id], 201
+
