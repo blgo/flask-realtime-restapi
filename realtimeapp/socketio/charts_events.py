@@ -2,6 +2,7 @@ from flask import session
 from flask_socketio import emit
 from threading import Lock
 from . import socketio
+from ..restful.resources import THERMOHYGRO 
 
 from random import randint
 import datetime
@@ -18,11 +19,25 @@ def charts_connect():
 
 
 def chart_background_thread():
+    reading_ids=[]
     while True:
-        socketio.sleep(5)
-        chart_data = get_graph_data()
-        socketio.emit('my_chart', {'label': chart_data[0], 'dataa': chart_data[1], 'datab': chart_data[2] }, namespace='/charts')
+        readings_list = dict.items(THERMOHYGRO)
+        for readings_touples in readings_list:
+            
+            if readings_touples[0] not in reading_ids:
+                
+                reading_ids.append(readings_touples[0])
+                temperature=readings_touples[1]['temperature']
+                humidity=readings_touples[1]['humidity']
+                date=readings_touples[1]['date']
+                print(date)
+                socketio.emit('my_chart', {'label': date, 'dataa': temperature, 'datab': humidity }, namespace='/charts')
 
+        print(reading_ids)
+        #serialise_sensor_data(reading_ids, temperatures, humidities, dates)
+        # socketio.emit('my_chart', {'label': datetime.datetime.now().isoformat(), 'dataa': temperatures, 'datab': humidities }, namespace='/charts')
+        
+        socketio.sleep(5)
 
 
 @socketio.on('get-data', namespace='/charts')
