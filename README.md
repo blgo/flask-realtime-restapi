@@ -1,3 +1,13 @@
+## Init virtual environment and Intall Python requirements
+`
+$ virtualenv .venv
+$ . .venv/bin/activate
+`
+NOTE: On Windows `$ . .venv/Scripts/activate`
+`
+$ pip install -r requirements
+`
+
 ## Run the application
 `
 $ export FLASK_APP=main.py
@@ -10,7 +20,7 @@ Alternatively you can use python:
 
 ## Externally Visible Server
 
-`flask run --host=0.0.0.0`
+`$ flask run --host=0.0.0.0`
 
 This tells your operating system to listen on all public IPs.
 
@@ -34,8 +44,14 @@ $ flask run
 
 
 ## TODO
+* Sanitase requirements.txt
+* Configure Docker image to run supervisor as a limited access user (currently running on `root`).
+* Use blueprints for restful api and sockets IO in order to be able to create as many "sensor" endpoints as necesary without duplicating code. 
+* Add database support.
+* Add Maximum, Mean, Median, Minimum historic reading
+* Improve chart labels
 * Handle Websockets disconnect
 * Add basic error handling and logging (docker logs compatible)
 * Use Twitter bootstrap to make the HTML a bit more pretty
 * Configure RESTful API to support humidity and temperature sensor data
-* Fix favicon error with RESTful API
+* Fix favicon error on RESTful API
