@@ -3,7 +3,9 @@
 $ virtualenv .venv
 $ . .venv/bin/activate
 `
+
 NOTE: On Windows `$ . .venv/Scripts/activate`
+
 `
 $ pip install -r requirements
 `
