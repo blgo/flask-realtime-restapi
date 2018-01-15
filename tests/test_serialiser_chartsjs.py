@@ -22,4 +22,9 @@ def test_get_statistics():
     readings_matrix = readings_to_matrix(readings)
     touple_stats = get_statistics(readings_matrix)
     assert_equal(touple_stats[0][1],59.333333333333336)
-    assert_equal(touple_stats[6][1],59.333333333333336)
+    assert_equal(touple_stats[6][1],60.0)
+
+
+def test_generate_stats_from_raw():
+    stats = generate_stats_from_raw(readings)
+    assert_equal(stats['tempmindate'],'2018-01-15 17:18:13.326091')

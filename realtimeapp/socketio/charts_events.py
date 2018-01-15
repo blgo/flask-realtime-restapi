@@ -2,7 +2,8 @@ from flask import session
 from flask_socketio import emit
 from threading import Lock
 from . import socketio
-from ..serializers.convertochartsjs import THERMOHYGRO 
+from ..serializers import THERMOHYGRO
+from ..serializers.convertochartsjs import generate_stats_from_raw
 
 from random import randint
 import datetime
@@ -31,6 +32,10 @@ def chart_background_thread():
                 humidity=readings_touples[1]['humidity']
                 date=readings_touples[1]['date']
                 socketio.emit('my_chart', {'label': date, 'dataa': temperature, 'datab': humidity }, namespace='/charts')
+
+                json_stats = generate_stats_from_raw(THERMOHYGRO)
+                socketio.emit('my_chart', json_stats, namespace='/charts')
+
 
         socketio.sleep(1)
 

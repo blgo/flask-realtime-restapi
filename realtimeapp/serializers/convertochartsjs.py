@@ -40,5 +40,21 @@ def get_statistics(readings_matrix):
     argmax = np.argmax(float_matrix,axis=0)
     median = np.median(float_matrix,axis=0)
     percentile = np.percentile(float_matrix,axis=0,q=98)
-    print (mean, std, minimum, maximum, argmin, argmax, median, percentile)
     return mean, std, minimum, maximum, argmin, argmax, median, percentile
+
+def generate_stats_from_raw(raw_readings):
+    
+    readings_matrix = readings_to_matrix(raw_readings)
+    stats = get_statistics(readings_matrix)
+    json_stats = {
+                'tempmean': stats[0][0], 'tempmedian': stats[6][0], 'tempmin': stats[2][0], 
+                'tempmindate': readings_matrix[stats[4][0]][1], 
+                'tempmax': stats[3][0], 'tempmaxdate': readings_matrix[stats[5][0]][1], 
+                'hummean': stats[0][1], 'hummedian': stats[6][1], 'hummin': stats[2][1],
+                'hummindate': readings_matrix[stats[4][1]][1],
+                'hummax': stats[3][1], 'hummaxdate': readings_matrix[stats[5][1]][1]
+                }
+    
+    return json_stats
+
+     
