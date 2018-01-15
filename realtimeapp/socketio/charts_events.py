@@ -34,7 +34,7 @@ def chart_background_thread():
                 socketio.emit('my_chart', {'label': date, 'dataa': temperature, 'datab': humidity }, namespace='/charts')
 
                 json_stats = generate_stats_from_raw(THERMOHYGRO)
-                socketio.emit('my_chart', json_stats, namespace='/charts')
+                socketio.emit('my_chart_stats', json_stats, namespace='/charts')
 
 
         socketio.sleep(1)

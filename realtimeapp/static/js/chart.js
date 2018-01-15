@@ -101,6 +101,45 @@ $(document).ready(function() {
         myLiveChart.update();
     });
       
+    socket.on('my_chart_stats', function(msg) {
+          //Build an array containing Customer records.
+          var customers = new Array();
+          customers.push(["Metric", "Temperature", "Humidity"]);
+          customers.push(["Minimum", msg.tempmin + "°C - " + msg.tempmindate, msg.hummin + "% - " + msg.hummindate]);
+          customers.push(["Maximum", msg.tempmax + "°C - " + msg.tempmaxdate, msg.hummin + "% - " + msg.hummindate]);
+          customers.push(["Mean", msg.tempmean, msg.hummean]);
+          customers.push(["Median", msg.tempmedian, msg.hummedian]);
+   
+          //Create a HTML Table element.
+          var table = $("<table />");
+          table[0].border = "1";
+   
+          //Get the count of columns.
+          var columnCount = customers[0].length;
+   
+          //Add the header row.
+          var row = $(table[0].insertRow(-1));
+          for (var i = 0; i < columnCount; i++) {
+              var headerCell = $("<th />");
+              headerCell.html(customers[0][i]);
+              row.append(headerCell);
+          }
+   
+          //Add the data rows.
+          for (var i = 1; i < customers.length; i++) {
+              row = $(table[0].insertRow(-1));
+              for (var j = 0; j < columnCount; j++) {
+                  var cell = $("<td />");
+                  cell.html(customers[i][j]);
+                  row.append(cell);
+              }
+          }
+   
+          var dvTable = $("#statistics");
+          dvTable.html("");
+          dvTable.append(table);
+    });
+      
 });
 
 // https://stackoverflow.com/questions/17354163/dynamically-update-values-of-a-chartjs-chart

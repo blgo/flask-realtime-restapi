@@ -61,12 +61,9 @@ class ReadingList(Resource):
         return THERMOHYGRO
 
     def post(self):
-        print(THERMOHYGRO)
         args = parser.parse_args()
         room =  args['room']
         date = args['date']
-        print(date)
-        print(str(date))
         reading_id = "{0}{1}".format(room, date.strftime("%Y%M%d%H%m%S%f"))
         readingdata = {  'date': str(date),
                         'room': room,
