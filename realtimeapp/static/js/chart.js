@@ -28,46 +28,60 @@ $(document).ready(function() {
             labels: [],
             datasets: [
             {
-                label: 'A',
-                yAxisID: 'A',
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
+                label: 'Temperature',
+                yAxisID: 'temperature',
+                borderColor: "#97a0cd",
+                // backgroundColor: "#97a0cd",
+                fill: false,
                 data: []
             },
             {
-                label: 'B',
-                yAxisID: 'B',
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
+                label: 'Humidity',
+                yAxisID: 'humidity',
+                borderColor: "#cd97bb",
+                // backgroundColor: "#97bbcd",
+                fill: false,
                 data: []
             }
         ]
         },
             options: {
+            title: {
+                display: true,
+                text: 'Sensor1 temperature and humidity'
+                },
             scales: {
                 xAxes: [{
                     type: 'time',
                     ticks: {
                         autoSkip: true,
-                        maxTicksLimit: 20
+                        maxTicksLimit: 20,
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'datetime',
                     }
                 }],
                 yAxes: [{
-                id: 'A',
+                id: 'temperature',
                 type: 'linear',
                 position: 'left',
+                scaleLabel: {
+                    display: true,
+                    labelString: '°C',
+                },
                 ticks: {
-                    max: 50,
-                    min: 0
+                    max: 25,
+                    min: -5
                 }
                 }, {
-                id: 'B',
+                id: 'humidity',
                 type: 'linear',
                 position: 'right',
+                scaleLabel: {
+                    display: true,
+                    labelString: '%',
+                },
                 ticks: {
                     max: 100,
                     min: 0
