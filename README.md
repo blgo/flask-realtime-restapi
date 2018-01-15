@@ -51,9 +51,5 @@ $ flask run
 * Use blueprints for restful api and sockets IO in order to be able to create as many "sensor" endpoints as necesary without duplicating code. 
 * Add database support.
 * Add Maximum, Mean, Median, Minimum historic reading
-* Improve chart labels
 * Handle Websockets disconnect
 * Add basic error handling and logging (docker logs compatible)
-* Use Twitter bootstrap to make the HTML a bit more pretty
-* Configure RESTful API to support humidity and temperature sensor data
-* Fix favicon error on RESTful API
