@@ -2,7 +2,7 @@ from flask import session
 from flask_socketio import emit
 from threading import Lock
 from . import socketio
-from ..restful.resources import THERMOHYGRO 
+from ..serializers.convertochartsjs import THERMOHYGRO 
 
 from random import randint
 import datetime

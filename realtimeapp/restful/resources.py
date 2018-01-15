@@ -2,6 +2,7 @@ from flask import request
 from flask_restful import Resource, reqparse, abort, inputs
 import datetime
 from . import api
+from ..serializers import THERMOHYGRO
 
 # TODO: Use https://flask-restful.readthedocs.io/en/latest/quickstart.html#data-formatting
 # Sensor dictionary for temperature/humidity reading
@@ -13,7 +14,6 @@ from . import api
 #     (...)
 # }
 
-THERMOHYGRO = {}
 
 parser = reqparse.RequestParser()
 parser.add_argument('date',type=inputs.datetime_from_iso8601 , 
@@ -61,6 +61,7 @@ class ReadingList(Resource):
         return THERMOHYGRO
 
     def post(self):
+        print(THERMOHYGRO)
         args = parser.parse_args()
         room =  args['room']
         date = args['date']
