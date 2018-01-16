@@ -106,7 +106,7 @@ $(document).ready(function() {
           var customers = new Array();
           customers.push(["Metric", "Temperature", "Humidity"]);
           customers.push(["Minimum", msg.tempmin + "°C - " + msg.tempmindate, msg.hummin + "% - " + msg.hummindate]);
-          customers.push(["Maximum", msg.tempmax + "°C - " + msg.tempmaxdate, msg.hummin + "% - " + msg.hummindate]);
+          customers.push(["Maximum", msg.tempmax + "°C - " + msg.tempmaxdate, msg.hummax + "% - " + msg.hummaxdate]);
           customers.push(["Mean", msg.tempmean, msg.hummean]);
           customers.push(["Median", msg.tempmedian, msg.hummedian]);
    
