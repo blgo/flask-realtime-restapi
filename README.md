@@ -53,3 +53,4 @@ $ flask run
 * Add Maximum, Mean, Median, Minimum historic reading
 * Handle Websockets disconnect
 * Add basic error handling and logging (docker logs compatible)
+
