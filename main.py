@@ -1,6 +1,5 @@
-from realtimeapp import configure_app, app
+from realtimeapp import configure_app, app, create_api
 from realtimeapp.socketio import create_socketio, socketio
-from realtimeapp.restful import create_api
 
 # Initialise app
 app = configure_app()

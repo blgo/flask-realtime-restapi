@@ -54,4 +54,5 @@ $ flask run
 * Handle Websockets disconnect
 * Add basic error handling and logging (docker logs compatible)
 * Add Docker image "build and run" test to travis (Docker image is currently generated on Docker hub after Github push events)
+* Implement integration test: realtimeapp.__init__ code is not tested.
 
