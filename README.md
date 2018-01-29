@@ -53,4 +53,5 @@ $ flask run
 * Add Maximum, Mean, Median, Minimum historic reading
 * Handle Websockets disconnect
 * Add basic error handling and logging (docker logs compatible)
+* Add Docker image "build and run" test to travis (Docker image is currently generated on Docker hub after Github push events)
 
