@@ -1,13 +1,22 @@
-from realtimeapp import *
-from realtimeapp.restful import create_api
-from nose.tools import *
-from flask import request
+from realtimeapp import configure_app
+from nose.tools import assert_equal, assert_in
+from realtimeapp.restful.resources import ReadingList
+from realtimeapp.restful import api
+
+
 
 def test_addreading():
+    # Initialise Flask in test mode
     app = configure_app()
     app.testing = True
-    create_api(app)
+
+    # Initialise Flask-RESTful api
+    api.add_resource(ReadingList, '/sensor1')
+    api.init_app(app)
+
+    # Initialise test client
     testapp = app.test_client()
+    
     rv = testapp.get('/') 
     data = rv.data.decode("utf-8")
 
@@ -35,3 +44,4 @@ def test_addreading():
     )
      
     assert_equal('400 BAD REQUEST', rv._status)
+    
