@@ -5,21 +5,19 @@ language: python
 python:
   - "3.6"
 before_install:
-  - pip install -r requirements.txt
-  - pip install nose
-  - nosetests
-# command to install dependencies
-install:
   - docker build -t blgo/flask-realtime-restapi .
   - docker run -d -p 80:80 blgo/flask-realtime-restapi
   - docker ps -a
-  - docker run blgo/flask-realtime-restapi bash -c "nosetests"
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+  - pip install nose
+# Run tests
+script:
+  - nosetests
+  - python tests/test_integration.py
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
     docker push blgo/flask-realtime-restapi;
     fi
-# Run tests
-script:
-  - nosetests
-  
