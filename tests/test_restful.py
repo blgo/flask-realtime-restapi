@@ -26,8 +26,10 @@ def test_addreading():
                   "temperature" : 45,
                   "humidity" : 98})
          ,follow_redirects=True)
+    
      
     data = rv.data.decode("utf-8")
+
     assert_equal('201 CREATED', rv._status)
     assert_in("test_backyard",data)
 
@@ -44,4 +46,12 @@ def test_addreading():
     )
      
     assert_equal('400 BAD REQUEST', rv._status)
+    
+    # Add more data
+    rv = testapp.post('/sensor1', 
+        data=dict({"date" : "2018-01-06T15:49:11.193728+00:00",   
+                  "room" : "test_backyard",
+                  "temperature" : 45,
+                  "humidity" : 98})
+         ,follow_redirects=True)
     

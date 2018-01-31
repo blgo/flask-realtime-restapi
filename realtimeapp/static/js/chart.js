@@ -20,79 +20,87 @@ $(document).ready(function() {
         $('#log').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
     });
 
-    var canvas = document.getElementById('updating-chart'),
-    ctx = canvas.getContext('2d')
-    var config = {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [
-            {
-                label: 'Temperature',
-                yAxisID: 'temperature',
-                borderColor: "#97a0cd",
-                // backgroundColor: "#97a0cd",
-                fill: false,
-                data: []
-            },
-            {
-                label: 'Humidity',
-                yAxisID: 'humidity',
-                borderColor: "#cd97bb",
-                // backgroundColor: "#97bbcd",
-                fill: false,
-                data: []
-            }
-        ]
-        },
-            options: {
-            title: {
-                display: true,
-                text: 'Sensor1 temperature and humidity'
+    var myLiveChart
+    var config
+
+  
+    socket.on('my_chart_init', function (msg) {
+
+        var canvas = document.getElementById('updating-chart'),
+        ctx = canvas.getContext('2d')
+        config = {
+            type: 'line',
+            data: {
+                labels: msg.label,
+                datasets: [
+                {
+                    label: 'Temperature',
+                    yAxisID: 'temperature',
+                    borderColor: "#97a0cd",
+                    // backgroundColor: "#97a0cd",
+                    fill: false,
+                    data: msg.dataa
                 },
-            scales: {
-                xAxes: [{
-                    type: 'time',
-                    ticks: {
-                        autoSkip: true,
-                        maxTicksLimit: 20,
+                {
+                    label: 'Humidity',
+                    yAxisID: 'humidity',
+                    borderColor: "#cd97bb",
+                    // backgroundColor: "#97bbcd",
+                    fill: false,
+                    data: msg.datab
+                }
+            ]
+            },
+                options: {
+                title: {
+                    display: true,
+                    text: 'Sensor1 temperature and humidity'
                     },
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: 20,
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'datetime',
+                        }
+                    }],
+                    yAxes: [{
+                    id: 'temperature',
+                    type: 'linear',
+                    position: 'left',
                     scaleLabel: {
                         display: true,
-                        labelString: 'datetime',
+                        labelString: '°C',
+                    },
+                    ticks: {
+                        max: 25,
+                        min: -5
                     }
-                }],
-                yAxes: [{
-                id: 'temperature',
-                type: 'linear',
-                position: 'left',
-                scaleLabel: {
-                    display: true,
-                    labelString: '°C',
-                },
-                ticks: {
-                    max: 25,
-                    min: -5
+                    }, {
+                    id: 'humidity',
+                    type: 'linear',
+                    position: 'right',
+                    scaleLabel: {
+                        display: true,
+                        labelString: '%',
+                    },
+                    ticks: {
+                        max: 100,
+                        min: 0
+                    }
+                    }]
                 }
-                }, {
-                id: 'humidity',
-                type: 'linear',
-                position: 'right',
-                scaleLabel: {
-                    display: true,
-                    labelString: '%',
-                },
-                ticks: {
-                    max: 100,
-                    min: 0
                 }
-                }]
             }
-            }
-        }
-
-    var myLiveChart = new Chart(ctx, config);
-
+        
+        myLiveChart = new Chart(ctx, config);
+    
+    });
+    
     socket.on('my_chart', function (msg) {
         
         config.data.labels.push(msg.label);

@@ -21,18 +21,18 @@ def readings_to_matrix(raw_readings):
 
         readings_matrix.append([readingid, date, temperature, humidity])
     
-    return readings_matrix
+    return readings_matrix    
 
 def get_statistics_matrix(readings_matrix):
     '''
     Find statistics for a given set of readings.
     '''
+    # First and second collums are reading ID and date
     matrix_filtered = np.delete(readings_matrix,0,axis=1)
     matrix_filtered = np.delete(matrix_filtered,0,axis=1)
-    # First and second collums are reading ID and date
-
+    
+    # Data comes as strings from REST api
     float_matrix = np.ndarray.astype(matrix_filtered,float)
-    # data comes as strings from REST api
 
     mean = np.mean(float_matrix,axis=0)
     std = np.std(float_matrix,axis=0)
@@ -68,3 +68,15 @@ def generate_stats(raw_readings):
                 }
 
     return stats
+
+
+def conver_matrix_to_nparray(readings_matrix):
+
+    return np.array(readings_matrix)
+
+def transpose_readings(readings_matrix):
+
+    readings_array = conver_matrix_to_nparray(readings_matrix)
+    return np.ndarray.transpose(readings_array)
+
+    
