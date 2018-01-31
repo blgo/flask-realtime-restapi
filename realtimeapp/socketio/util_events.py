@@ -1,29 +1,29 @@
 from flask import session
 from flask_socketio import emit
-from threading import Lock
+# from threading import Lock
 from . import socketio
 
-thread = None
-thread_lock = Lock()
+# thread = None
+# thread_lock = Lock()
 
-def test_background_thread():
-    """Example of how to send server generated events to clients."""
-    count = 0
-    while True:
-        socketio.sleep(10)
-        count += 1
-        socketio.emit('my_response',
-                      {'data': 'Server generated event', 'count': count},
-                        namespace='/test')
+# def test_background_thread():
+#     """Example of how to send server generated events to clients."""
+#     count = 0
+#     while True:
+#         socketio.sleep(10)
+#         count += 1
+#         socketio.emit('my_response',
+#                       {'data': 'Server generated event', 'count': count},
+#                         namespace='/test')
 
 
 @socketio.on('connect', namespace='/test')
 def test_connect():
     print("Server says: A client has connected")
-    global thread
-    with thread_lock:
-        if thread is None:
-            thread = socketio.start_background_task(target=test_background_thread)
+    # global thread
+    # with thread_lock:
+    #     if thread is None:
+    #         thread = socketio.start_background_task(target=test_background_thread)
     emit('my_response', {'data': 'Connected', 'count': 0})
 
 

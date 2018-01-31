@@ -15,7 +15,7 @@ install:
 # Run tests
 script:
   - nosetests
-  - python tests/test_integration.py
+  - python tests/integration.py
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
