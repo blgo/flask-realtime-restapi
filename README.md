@@ -59,9 +59,5 @@ $ flask run
 * Configure Docker image to run supervisor as a limited access user (currently running on ```root```).
 * Use blueprints for restful api and sockets IO in order to be able to create as many "sensor" endpoints as necesary without duplicating code. 
 * Add database support.
-* Add Maximum, Mean, Median, Minimum historic reading
 * Handle Websockets disconnect
 * Add basic error handling and logging (docker logs compatible)
-* Add Docker image "build and run" test to travis (Docker image is currently generated on Docker hub after Github push events)
-* Implement integration test: realtimeapp.__init__ code is not tested.
-
