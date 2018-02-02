@@ -8,7 +8,7 @@ from ..serializers import THERMOHYGRO
 # Sensor dictionary for temperature/humidity reading
 # THERMOHYGRO = {
 #     <string:RoomNameYYYYMMDDHHmmss> : { 'date': <datetime.isoformat>,
-#                                         'room' = <string: room name>,
+#                                         'room': <string: room name>,
 #                                         'temperature': <int:Celcius>,
 #                                         'humidity': <int> },
 #     (...)
