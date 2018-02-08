@@ -1,8 +1,5 @@
 import numpy as np
 
-# these will be objects generated with data from the database
-THERMOHYGRO = {}
-
 def readings_to_matrix(raw_readings):
     '''
     Get all readings and transform them into a list of touples.
