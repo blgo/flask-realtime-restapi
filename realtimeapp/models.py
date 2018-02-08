@@ -1,4 +1,5 @@
 from mongoengine import *
+import datetime
 
 # TODO: Use https://flask-restful.readthedocs.io/en/latest/quickstart.html#data-formatting
 # Sensor dictionary for temperature/humidity reading
@@ -16,7 +17,10 @@ connect('mongoengine', host='localhost', port=27017)
 
 # Defining a Document
 class SensorReading(Document):
-    date =  DateTimeField()
+    #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
+    #Then, we could save date as a datetime object
+    date =  StringField(required=True)
     room = StringField(required=True)
     temperature = FloatField(required=True)
     humidity =  FloatField(required=True)
+    readingid = StringField(primary_key=True, required=True)
