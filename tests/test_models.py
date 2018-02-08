@@ -1,20 +1,55 @@
-from django.test import TestCase
-from ..models import Puppy
+from realtimeapp.models import SensorReading
+from nose.tools import assert_equal, assert_raises
 
 
-class PuppyTest(TestCase):
-    """ Test module for Puppy model """
+def test_sensor_reading_save():
+    '''
+    Test models using MongoDB
+    Create and Read data
+    A Mongo database should be running to test this:
+    $ docker run --rm -p 27017:27017 -d mongo:3.6.2
+    '''
 
-    def setUp(self):
-        Puppy.objects.create(
-            name='Casper', age=3, breed='Bull Dog', color='Black')
-        Puppy.objects.create(
-            name='Muffin', age=1, breed='Gradane', color='Brown')
+    # Saving Documents
+    reading_1 = SensorReading(
+        room='backyard_test',
+        temperature=15,
+        humidity=99,
+        date='2018-01-05T15:48:11.893728+00:00'
+    )
+    reading_1.save()       # This will perform an insert
 
-    def test_puppy_breed(self):
-        puppy_casper = Puppy.objects.get(name='Casper')
-        puppy_muffin = Puppy.objects.get(name='Muffin')
-        self.assertEqual(
-            puppy_casper.get_breed(), "Casper belongs to Bull Dog breed.")
-        self.assertEqual(
-            puppy_muffin.get_breed(), "Muffin belongs to Gradane breed.")
+    reading_2 = SensorReading(
+        room='backyard_test_2',
+        temperature=11.1,
+        humidity=51.5,
+        date='2018-01-05T16:50:21.114721+00:00'
+    )
+    reading_2.save()
+
+
+    assert_equal(reading_1.room, 'backyard_test')
+    assert_equal(reading_1.temperature, 15)
+    assert_equal(reading_1.humidity, 99)
+    assert_equal(reading_1.date, '2018-01-05T15:48:11.893728+00:00')
+
+    assert_equal(reading_2.room, 'backyard_test_2')
+    assert_equal(reading_2.temperature, 11.1)
+    assert_equal(reading_2.humidity, 51.5)
+    assert_equal(reading_2.date, '2018-01-05T16:50:21.114721+00:00')
+
+def test_sensor_reading_validation_error():
+    '''
+    Test validation, validation should be triggered and save command fail
+    '''
+    reading_3 = SensorReading(
+        room='backyard_test_2',
+        temperature='string',
+        humidity=51.5,
+        date='2018-01-05T16:50:21.114721+00:00'
+    )
+    
+    with assert_raises(Exception) as e:
+        reading_3.save()
+
+    assert_equal(e.exception._message,'ValidationError (SensorReading:None) ') 
