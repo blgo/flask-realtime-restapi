@@ -81,6 +81,7 @@ class Reading(Resource):
 
 class ReadingList(Resource):
     #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
+    #Also implement fields.Url('readingid') to make the API "human browseable" 
     def get(self):
         return return_all()
 

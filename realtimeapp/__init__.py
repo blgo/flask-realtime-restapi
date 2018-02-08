@@ -1,6 +1,6 @@
 from flask import Flask
 from .restful import api
-from resources_extended import ReadingListSocketioEvent
+from .resources_extended import ReadingListSocketioEvent
 
 app = Flask(__name__)
 
