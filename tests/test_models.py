@@ -1,4 +1,4 @@
-from realtimeapp.models import SensorReading
+from realtimeapp.models import SensorReading, return_all
 from nose.tools import assert_equal, assert_raises
 
 
@@ -56,3 +56,28 @@ def test_sensor_reading_validation_error():
         reading_3.save()
 
     assert_equal(e.exception._message,'ValidationError (SensorReading:backyard_test_3201801051650) ') 
+
+def test_return_all():
+    '''
+    Creates a database dump, used for numpy
+    Check that the structure returned by this method is equal to:
+    readings = {
+        'bedroom20181815170112298831': 
+        {'date': '2018-01-15 17:18:12.298831', 'room': 'bedroom', 'temperature': 20, 'humidity': 60},
+        'bedroom20181815170113326091': 
+        {'date': '2018-01-15 17:18:13.326091', 'room': 'bedroom', 'temperature': 11, 'humidity': 61}, 
+        'bedroom20181815170114343102':
+        {'date': '2018-01-15 17:18:14.343102', 'room': 'bedroom', 'temperature': 17, 'humidity': 57},
+        readingid : {reading._data}
+    }
+    '''
+    reading_4 = SensorReading(
+        room='backyard_test_2',
+        temperature=11.1,
+        humidity=51.5,
+        date='2018-01-05T16:50:21.114721+00:00',
+        readingid = 'backyard_test_220180105165023'
+    )
+    reading_4.save()
+
+    assert_equal(return_all().get('backyard_test_220180105165021')['humidity'],51.5) 

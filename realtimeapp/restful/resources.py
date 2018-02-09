@@ -3,14 +3,14 @@ from flask_restful import Resource, reqparse, abort, inputs
 from flask_restful import Resource, fields, marshal_with
 
 from . import api
-from ..models import SensorReading
+from ..models import SensorReading, return_all
 
 
 resource_fields = {
     'room': fields.String(attribute='room'),
     'temperature': fields.Float,
     'humidity': fields.Float,
-    'date': fields.String
+    'date': fields.DateTime(dt_format='rfc822')
 }
 
 parser = reqparse.RequestParser()
@@ -41,14 +41,6 @@ def abort_if_data_doesnt_exist(reading_id):
     if not reading:
         abort(404, message="Sensor reading {} doesn't exist".format(reading_id))
     return reading
-
-
-def return_all():
-    readings = []
-    for reading in SensorReading.objects:
-        #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
-        readings.append(reading._data)
-    return readings
 
 
 class Reading(Resource):
