@@ -6,8 +6,8 @@ python:
   - "3.6"
 before_install:
   - docker build -t blgo/flask-realtime-restapi .
-  - docker run -d -p 80:80 blgo/flask-realtime-restapi
-  - docker run --rm -p 27017:27017 -d mongo:3.6.2
+  - docker run --name realtimeapp -d -p 80:80 blgo/flask-realtime-restapi
+  - docker run --name mongo --link realtimeapp:mongo -d mongo:3.6.2
   - docker ps -a
 # command to install dependencies
 install:
