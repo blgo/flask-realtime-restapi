@@ -1,9 +1,14 @@
 from realtimeapp import configure_app
 from nose.tools import assert_equal, assert_in
+from mongoengine import connect
 from realtimeapp.restful.resources import ReadingList
 from realtimeapp.restful import api
 
-
+'''
+Requires running a MongoDB instance
+docker run --rm -p 27017:27017 -d mongo:3.6.2
+''' 
+connect(is_mock=True)
 
 def test_addreading():
     # Initialise Flask in test mode
@@ -21,7 +26,7 @@ def test_addreading():
     data = rv.data.decode("utf-8")
 
     rv = testapp.post('/sensor1', 
-        data=dict({"date" : "2018-01-05T15:49:11.193728+00:00",   
+        data=dict({"date" : "2018-01-05T15:49:11.193728",   
                   "room" : "test_backyard",
                   "temperature" : 45,
                   "humidity" : 98})
@@ -39,7 +44,7 @@ def test_addreading():
     assert_in('test_backyard',data)
 
     rv = testapp.post('/sensor1', 
-        data=dict({"date" : "2018-01-0515:49:11.193728+00:00",   
+        data=dict({"date" : "2018-01-0515:49:11.193728",   
                   "room" : "test_backyard",
                   "temperature" : 45,
                   "humidity" : 98})
@@ -49,7 +54,7 @@ def test_addreading():
     
     # Add more data
     rv = testapp.post('/sensor1', 
-        data=dict({"date" : "2018-01-06T15:49:11.193728+00:00",   
+        data=dict({"date" : "2018-01-06T15:49:11.193728",   
                   "room" : "test_backyard",
                   "temperature" : 45,
                   "humidity" : 98})
