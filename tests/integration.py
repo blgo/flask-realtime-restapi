@@ -9,7 +9,7 @@ This test is design to run using a running Docker image, configured for
 
 # Setup Requests
 url = 'http://localhost/sensor1'
-data = { "date" : "2018-01-06T15:48:11.893728+00:00",
+data = { "date" : "2018-01-06T15:48:11.893728",
         "room" : "bedroom", 
         "temperature" : 10, 
         "humidity" : 10 } 

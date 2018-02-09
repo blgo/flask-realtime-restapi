@@ -48,7 +48,7 @@ def test_charts_getdata():
         room='backyard_test',
         temperature=15,
         humidity=99,
-        date='2018-01-05T15:48:11.893729+00:00',
+        date='2018-01-05T15:48:11.893729',
         readingid = 'backyard_test_1201801051549'
     )
     reading_1.save()       # This will perform an insert
@@ -61,4 +61,4 @@ def test_charts_getdata():
     items = testclient.get_received(namespace=namespace)
 
 
-    assert_in(items[1]['args'][0]['label'][0], '2018-01-05T15:48:11.893728+00:00')
+    assert_in(items[1]['args'][0]['label'][0], '2018-01-05T15:48:11.893728')

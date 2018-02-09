@@ -24,7 +24,7 @@ parser.add_argument('humidity',type=float ,
     help="<temperature> has to be a number 'float'")
 
 
-# curl http://localhost:5000/thermohygro -H "Content-Type: application/json" -d '{ "date" : "2018-01-05T15:48:11.893728+00:00",  "room" : "bedroom", "temperature" : 25, "humidity" : 51 }' -X POST 
+# curl http://localhost:5000/thermohygro -H "Content-Type: application/json" -d '{ "date" : "2018-01-05T15:48:11.893728",  "room" : "bedroom", "temperature" : 25, "humidity" : 51 }' -X POST 
 # Python can generate this date: 
 # datetime.datetime.now().isoformat()
 

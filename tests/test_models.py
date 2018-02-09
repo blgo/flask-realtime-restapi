@@ -15,7 +15,7 @@ def test_sensor_reading_save():
         room='backyard_test',
         temperature=15,
         humidity=99,
-        date='2018-01-05T15:48:11.893728+00:00',
+        date='2018-01-05T15:48:11.893728',
         readingid = 'backyard_test_1201801051548'
     )
     reading_1.save()       # This will perform an insert
@@ -24,7 +24,7 @@ def test_sensor_reading_save():
         room='backyard_test_2',
         temperature=11.1,
         humidity=51.5,
-        date='2018-01-05T16:50:21.114721+00:00',
+        date='2018-01-05T16:50:21.114721',
         readingid = 'backyard_test_220180105165021'
     )
     reading_2.save()
@@ -33,12 +33,12 @@ def test_sensor_reading_save():
     assert_equal(reading_1.room, 'backyard_test')
     assert_equal(reading_1.temperature, 15)
     assert_equal(reading_1.humidity, 99)
-    assert_equal(reading_1.date, '2018-01-05T15:48:11.893728+00:00')
+    assert_equal(reading_1.date, '2018-01-05T15:48:11.893728')
 
     assert_equal(reading_2.room, 'backyard_test_2')
     assert_equal(reading_2.temperature, 11.1)
     assert_equal(reading_2.humidity, 51.5)
-    assert_equal(reading_2.date, '2018-01-05T16:50:21.114721+00:00')
+    assert_equal(reading_2.date, '2018-01-05T16:50:21.114721')
 
 def test_sensor_reading_validation_error():
     '''
@@ -48,7 +48,7 @@ def test_sensor_reading_validation_error():
         room='backyard_test_3',
         temperature='string',
         humidity=51.5,
-        date='2018-01-05T16:50:21.114721+00:00',
+        date='2018-01-05T16:50:21.114721',
         readingid = 'backyard_test_3201801051650'
     )
     
@@ -85,7 +85,7 @@ def test_return_all():
         room='backyard_test_2',
         temperature=11.1,
         humidity=51.5,
-        date='2018-01-05T16:50:21.114721+00:00',
+        date='2018-01-05T16:50:21.114721',
         readingid = 'backyard_test_220180105165023'
     )
     reading_4.save()
