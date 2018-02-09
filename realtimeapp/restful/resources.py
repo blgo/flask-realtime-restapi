@@ -10,7 +10,7 @@ resource_fields = {
     'room': fields.String(attribute='room'),
     'temperature': fields.Float,
     'humidity': fields.Float,
-    'date': fields.DateTime(dt_format='rfc822')
+    'date': fields.String
 }
 
 parser = reqparse.RequestParser()
