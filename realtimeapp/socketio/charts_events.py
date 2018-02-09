@@ -32,18 +32,23 @@ def get_chart_data():
     # with chart_thread_lock:
     #     if chart_thread is None:
     #         chart_thread = socketio.start_background_task(target=chart_background_thread)
-    
+
+
+
     THERMOHYGRO = return_all()
     if THERMOHYGRO:
-
         readings_matrix = readings_to_matrix(THERMOHYGRO)
-
         transposed_readings = transpose_readings(readings_matrix)
-
-        emit('my_chart_init', {'label': transposed_readings[1].tolist() , 'dataa':  transposed_readings[2].tolist(), 'datab':  transposed_readings[3].tolist() }, namespace='/charts')
-
+        emit('my_chart_init', {'label': transposed_readings[1].tolist(),
+             'dataa':  transposed_readings[2].tolist(),
+             'datab':  transposed_readings[3].tolist() },
+             namespace='/charts')
         stats = generate_stats(THERMOHYGRO)
         emit('my_chart_stats', stats, namespace='/charts')
+
+    else:
+            emit('my_chart_init', {'label': [] , 'dataa': [] , 'datab': [] }, namespace='/charts')
+            emit('my_chart_stats', {}, namespace='/charts')
 
     emit('my_response', {'data': 'Chart data stream Connected', 'count': 0}, namespace="/charts")
 
