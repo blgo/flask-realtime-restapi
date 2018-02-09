@@ -31,13 +31,16 @@ Alternatively you can use python:
 This tells your operating system to listen on all public IPs.
 
 ## Debug mode
+
+Debug mode will use the mock database instead of MongoDB.
+
 ```
 $ export FLASK_DEBUG=1
 
 $ flask run
 ```
 
-(On Windows you need to use set instead of export).
+(On Windows you need to use **set** instead of **export**).
 
 ## Docker image
 
@@ -45,11 +48,17 @@ $ flask run
 
 [![](https://images.microbadger.com/badges/version/blgo/flask-realtime-restapi.svg)](https://microbadger.com/images/blgo/flask-realtime-restapi "Get your own version badge on microbadger.com")
 
-### Build Docker image
+### Download Docker image
 
 ```docker pull blgo/flask-realtime-restapi:latest```
 
 ### Run Docker image
+
+Start MongoDB or set FLASK_DEBUG to skip this command:
+
+```docker run --rm -p 27017:27017 -d mongo```
+
+Start Realtimeapp
 
 ```docker run --rm -p 80:80 blgo/flask-realtime-restapi:latest```
 

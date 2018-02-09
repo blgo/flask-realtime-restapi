@@ -1,5 +1,6 @@
 from realtimeapp import configure_app
 from nose.tools import assert_equal, assert_in
+from mongoengine import connect
 from realtimeapp.restful.resources import ReadingList
 from realtimeapp.restful import api
 
@@ -7,6 +8,7 @@ from realtimeapp.restful import api
 Requires running a MongoDB instance
 docker run --rm -p 27017:27017 -d mongo:3.6.2
 ''' 
+connect(is_mock=True)
 
 def test_addreading():
     # Initialise Flask in test mode

@@ -1,7 +1,6 @@
 from mongoengine import connect, Document, StringField, FloatField
 import datetime
 
-# TODO: Use https://flask-restful.readthedocs.io/en/latest/quickstart.html#data-formatting
 # Sensor dictionary for temperature/humidity reading
 # THERMOHYGRO = {
 #     <string:RoomNameYYYYMMDDHHmmss> : { 'date': <datetime.isoformat>,
@@ -10,10 +9,6 @@ import datetime
 #                                         'humidity': <int> },
 #     (...)
 # }
-
-# Establishing a Connection
-connect('mongoengine', host='localhost', port=27017)
-
 
 # Defining a Document
 class SensorReading(Document):

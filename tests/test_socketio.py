@@ -1,8 +1,12 @@
 from realtimeapp import configure_app, app
 from realtimeapp.socketio import create_socketio, socketio
 from flask_socketio import SocketIOTestClient
+from mongoengine import connect
+from realtimeapp.models import SensorReading
 import time
 from nose.tools import *
+
+connect(is_mock=True)
 
 # Initialise app
 app = configure_app()
@@ -36,6 +40,19 @@ def test_ping():
 
 
 def test_charts_getdata():
+    '''
+    This test goes throught the get-data SocketIO event
+    it runs trought the the data processing module readingstats.py
+    '''
+    reading_1 = SensorReading(
+        room='backyard_test',
+        temperature=15,
+        humidity=99,
+        date='2018-01-05T15:48:11.893729+00:00',
+        readingid = 'backyard_test_1201801051549'
+    )
+    reading_1.save()       # This will perform an insert
+
     namespace = "/charts"
     testclient = connect_client(namespace)
     testclient.emit("get-data", namespace=namespace)
@@ -43,4 +60,5 @@ def test_charts_getdata():
     time.sleep(2)
     items = testclient.get_received(namespace=namespace)
 
-    assert_in('2018-01-05 15:49:11.193728',items[1]['args'][0]['label'][0])
+
+    assert_in(items[1]['args'][0]['label'][0], '2018-01-05T15:48:11.893728+00:00')

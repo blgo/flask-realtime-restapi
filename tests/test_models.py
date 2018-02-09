@@ -1,13 +1,13 @@
+from mongoengine import connect
 from realtimeapp.models import SensorReading, return_all
 from nose.tools import assert_equal, assert_raises
 
+connect(is_mock=True)
 
 def test_sensor_reading_save():
     '''
     Test models using MongoDB
-    Create and Read a new datapoint 
-    A Mongo database should be running to test this:
-    $ docker run --rm -p 27017:27017 -d mongo:3.6.2
+    Create and Read data
     '''
 
     # Saving Documents

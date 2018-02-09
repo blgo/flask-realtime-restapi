@@ -21,7 +21,7 @@ $(document).ready(function() {
     });
 
     var myLiveChart
-    var config
+    var config = {type: 'line'}
 
   
     socket.on('my_chart_init', function (msg) {
