@@ -1,4 +1,4 @@
-from realtimeapp.serializers import *
+from realtimeapp.readingstats import *
 from nose.tools import *
 
 readings = {
@@ -18,7 +18,6 @@ def test_readings_to_matrix():
 
 
 def test_get_statistics():
-
     readings_matrix = readings_to_matrix(readings)
     touple_stats = get_statistics_matrix(readings_matrix)
     assert_equal(touple_stats[0][1],59.333333333333336)
@@ -26,5 +25,8 @@ def test_get_statistics():
 
 
 def test_generate_stats_from_raw():
+    '''
+    Gets the date for the minimum temperature
+    '''
     stats = generate_stats(readings)
     assert_equal(stats['tempmindate'],'2018-01-15 17:18:13.326091')
