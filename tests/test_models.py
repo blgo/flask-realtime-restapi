@@ -57,6 +57,7 @@ def test_sensor_reading_validation_error():
 
     assert_equal(e.exception._message,'ValidationError (SensorReading:backyard_test_3201801051650) ') 
 
+
 def test_return_all():
     '''
     Creates a database dump, used for numpy
@@ -71,6 +72,15 @@ def test_return_all():
         readingid : {reading._data}
     }
     '''
+    readings_sample = {
+        'bedroom20181815170112298831': 
+        {'date': '2018-01-15 17:18:12.298831', 'room': 'bedroom', 'temperature': 20, 'humidity': 60},
+        'bedroom20181815170113326091': 
+        {'date': '2018-01-15 17:18:13.326091', 'room': 'bedroom', 'temperature': 11, 'humidity': 61}, 
+        'bedroom20181815170114343102':
+        {'date': '2018-01-15 17:18:14.343102', 'room': 'bedroom', 'temperature': 17, 'humidity': 57}
+    }
+
     reading_4 = SensorReading(
         room='backyard_test_2',
         temperature=11.1,
@@ -80,4 +90,7 @@ def test_return_all():
     )
     reading_4.save()
 
-    assert_equal(return_all().get('backyard_test_220180105165021')['humidity'],51.5) 
+    readings = return_all()
+    
+    assert_equal(type(readings), type(readings_sample))
+    assert_equal(readings.get('backyard_test_220180105165021')['humidity'],51.5) 
