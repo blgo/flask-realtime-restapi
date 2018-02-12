@@ -30,7 +30,6 @@ def return_all():
 
         data['date']=str(data.pop('date').isoformat())
 
-        print(readings)
         readings[reading_id]=data
     
     return readings
