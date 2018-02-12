@@ -1,4 +1,4 @@
-from mongoengine import connect, Document, StringField, FloatField
+from mongoengine import connect, Document, StringField, FloatField, DateTimeField
 import datetime
 
 # Sensor dictionary for temperature/humidity reading
@@ -14,7 +14,7 @@ import datetime
 class SensorReading(Document):
     #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
     #Then, we could save date as a datetime object
-    date =  StringField(required=True)
+    date =  DateTimeField(required=True)
     room = StringField(required=True)
     temperature = FloatField(required=True)
     humidity =  FloatField(required=True)
@@ -26,6 +26,11 @@ def return_all():
         #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
         data = reading._data
         reading_id = data.pop('readingid')
+        
+
+        data['date']=str(data.pop('date').isoformat())
+
+        print(readings)
         readings[reading_id]=data
     
     return readings

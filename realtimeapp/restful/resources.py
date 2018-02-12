@@ -5,14 +5,15 @@ from flask_restful import Resource, fields, marshal_with
 from . import api
 from ..models import SensorReading, return_all
 
-
+# Serialise response using fields and marshall_with 
 resource_fields = {
     'room': fields.String(attribute='room'),
     'temperature': fields.Float,
     'humidity': fields.Float,
-    'date': fields.String
+    'date': fields.DateTime(dt_format='rfc822')
 }
 
+# REST API input data is parsed using reqparser
 parser = reqparse.RequestParser()
 parser.add_argument('date',type=inputs.datetime_from_iso8601 , 
     help="<date> has to be in datetime isoformat: 2018-01-05T15:48:11.893728 `datetime.datetime.now().isoformat()`")
@@ -86,7 +87,7 @@ class ReadingList(Resource):
 
         reading = SensorReading( 
                         readingid = reading_id,
-                        date = str(date),
+                        date = date,
                         room = room,
                         temperature = args['temperature'],
                         humidity = args['humidity']
