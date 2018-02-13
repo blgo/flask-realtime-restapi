@@ -147,7 +147,12 @@ $(document).ready(function() {
           dvTable.html("");
           dvTable.append(table);
     });
-      
+
+    socket.on('last_reading', function(msg) {
+        $('#last-reading').text(msg.label + ", " +  msg.dataa + " °C - " +  msg.datab + " %"  );
+    });
+
+
 });
 
 // https://stackoverflow.com/questions/17354163/dynamically-update-values-of-a-chartjs-chart

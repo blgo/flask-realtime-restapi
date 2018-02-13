@@ -3,7 +3,7 @@ from flask_socketio import emit
 from threading import Lock
 from . import socketio
 from ..readingstats import readings_to_matrix, generate_stats, transpose_readings
-from ..models import SensorReading, return_all
+from ..models import return_all, last_reading
 
 from random import randint
 import datetime
@@ -39,6 +39,8 @@ def get_chart_data():
     if THERMOHYGRO:
         readings_matrix = readings_to_matrix(THERMOHYGRO)
         transposed_readings = transpose_readings(readings_matrix)
+        last=last_reading()
+        emit('last_reading', {'label': last['date'] , 'dataa':  last['temperature'], 'datab':  last['humidity'] }, last='/charts')
         emit('my_chart_init', {'label': transposed_readings[1].tolist(),
              'dataa':  transposed_readings[2].tolist(),
              'datab':  transposed_readings[3].tolist() },
@@ -47,8 +49,9 @@ def get_chart_data():
         emit('my_chart_stats', stats, namespace='/charts')
 
     else:
-            emit('my_chart_init', {'label': [] , 'dataa': [] , 'datab': [] }, namespace='/charts')
-            emit('my_chart_stats', {}, namespace='/charts')
+        emit('last_reading', {'label': [] , 'dataa': [] , 'datab': [] }, namespace='/charts')
+        emit('my_chart_init', {'label': [] , 'dataa': [] , 'datab': [] }, namespace='/charts')
+        emit('my_chart_stats', {}, namespace='/charts')
 
     emit('my_response', {'data': 'Chart data stream Connected', 'count': 0}, namespace="/charts")
 
@@ -56,6 +59,7 @@ def emit_new_reading(reading):
     
     THERMOHYGRO = return_all()
 
+    socketio.emit('last_reading', {'label': reading['date'] , 'dataa':  reading['temperature'], 'datab':  reading['humidity'] }, namespace='/charts')
     socketio.emit('my_chart', {'label': reading['date'] , 'dataa':  reading['temperature'], 'datab':  reading['humidity'] }, namespace='/charts')
     stats = generate_stats(THERMOHYGRO)
     socketio.emit('my_chart_stats', stats, namespace='/charts')
