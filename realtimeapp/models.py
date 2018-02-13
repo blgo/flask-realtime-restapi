@@ -1,5 +1,5 @@
 from mongoengine import connect, Document, StringField, FloatField, DateTimeField
-import datetime
+from datetime import datetime, timedelta
 
 # Sensor dictionary for temperature/humidity reading
 # THERMOHYGRO = {
@@ -26,9 +26,19 @@ def return_all():
         #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
         data = reading._data
         reading_id = data.pop('readingid')
-
         data['date']=str(data.pop('date').isoformat())
+        readings[reading_id]=data
+    
+    return readings
 
+def return_all_by_date(days):
+    readings = {}
+    datefilter = datetime.today() - timedelta(days)
+    for reading in SensorReading.objects(date__gt=datefilter)[:3600]:
+        #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
+        data = reading._data
+        reading_id = data.pop('readingid')
+        data['date']=str(data.pop('date').isoformat())
         readings[reading_id]=data
     
     return readings
