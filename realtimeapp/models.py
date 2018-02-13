@@ -26,10 +26,16 @@ def return_all():
         #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
         data = reading._data
         reading_id = data.pop('readingid')
-        
 
         data['date']=str(data.pop('date').isoformat())
 
         readings[reading_id]=data
     
     return readings
+
+def last_reading():
+    
+    data = SensorReading.objects.first()._data
+    data['date']=str(data.pop('date').isoformat())
+    
+    return data 
