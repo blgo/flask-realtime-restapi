@@ -10,7 +10,9 @@ This test is design to run using a running Docker image, configured for
 
 # Setup Requests
 url = 'http://localhost/sensor1'
-data = { "date" : datetime.datetime.now().isoformat(),
+date = datetime.datetime.now()
+datestr = date.isoformat()
+data = { "date" : datestr,
         "room" : "bedroom", 
         "temperature" : 10, 
         "humidity" : 10 } 
@@ -22,7 +24,9 @@ print (post)
 assert post.ok
 
 # GET from RESTapi
-get = requests.get(url + '/bedroom20184806150111893728')
+datestr=date.strftime("%Y%M%d%H%m%S%f")
+reading_id = "{0}{1}".format("bedroom", datestr )
+get = requests.get(url + '/' + reading_id)
 print(get)
 assert get.ok
 
