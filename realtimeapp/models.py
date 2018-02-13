@@ -34,7 +34,7 @@ def return_all():
 def return_all_by_date(days):
     readings = {}
     datefilter = datetime.today() - timedelta(days)
-    for reading in SensorReading.objects(date__gt=datefilter):
+    for reading in SensorReading.objects(date__gt=datefilter)[:3600]:
         #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
         data = reading._data
         reading_id = data.pop('readingid')
