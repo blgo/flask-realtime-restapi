@@ -105,4 +105,4 @@ def test_return_all_by_date():
     # Make sure we get the readings are already serialized as a dictionary
     assert_equal(type(readings), type(readings_sample))
     # Verify that the data is in the results set
-    assert_equal(readings.get('backyard_test_220180105165021')['humidity'],51.5) 
+    assert_equal(readings.get('backyard_test_220180105165021')['humidity'],51.5)

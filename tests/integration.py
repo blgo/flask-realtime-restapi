@@ -2,6 +2,7 @@ import requests
 from time import sleep
 import json
 from socketIO_client import SocketIO, LoggingNamespace, BaseNamespace
+import datetime
 '''
 This test is design to run using a running Docker image, configured for
  Travis CI. 
@@ -9,7 +10,7 @@ This test is design to run using a running Docker image, configured for
 
 # Setup Requests
 url = 'http://localhost/sensor1'
-data = { "date" : "2018-01-06T15:48:11.893728",
+data = { "date" : datetime.datetime.now().isoformat(),
         "room" : "bedroom", 
         "temperature" : 10, 
         "humidity" : 10 } 
