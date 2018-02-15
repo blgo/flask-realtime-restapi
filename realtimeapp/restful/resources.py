@@ -3,22 +3,36 @@ from flask_restful import Resource, reqparse, abort, inputs
 from flask_restful import Resource, fields, marshal_with
 
 from . import api
-from ..models import SensorReading
+
+from ..models import ThermHygReading, SensorReading, Sensor
 
 # Serialise response using fields and marshall_with 
+
+a = Sensor(name='bedroom', room='bedroom')
+
+sensor_fields = {
+    'name' : fields.String,
+    'room' : fields.String
+}
+
 resource_fields = {
-    'room' : fields.String,
+    'readingid' : fields.String,
+    'room' : fields.String(attribute='sensor.room'),
     'temperature': fields.Float,
     'humidity': fields.Float,
     'date': fields.DateTime(dt_format='iso8601'),
+}
+
+resourcelist_fields = {
+    'readings': fields.List(fields.Nested(resource_fields))
 }
 
 # REST API input data is parsed using reqparser
 parser = reqparse.RequestParser()
 parser.add_argument('date',type=inputs.datetime_from_iso8601 , 
     help="<date> has to be in datetime isoformat: 2018-01-05T15:48:11.893728 `datetime.datetime.now().isoformat()`")
-parser.add_argument('room',type=inputs.regex('^\D+$')  , 
-    help="<room> has to be a word 'string'")
+parser.add_argument('sensor',type=inputs.regex('^\D+$'), 
+     help="<sensor> has to be a word 'string' and has to be registered in the database")
 parser.add_argument('temperature',type=float , 
     help="<temperature> has to be a number 'float'")
 parser.add_argument('humidity',type=float , 
@@ -33,7 +47,7 @@ def find_reading_by_id(reading_id):
     '''
     Return database reading by id
     '''
-    for reading in SensorReading.objects(readingid=reading_id):
+    for reading in ThermHygReading.objects(readingid=reading_id):
         return reading
 
 
@@ -43,6 +57,12 @@ def abort_if_data_doesnt_exist(reading_id):
         abort(404, message="Sensor reading {} doesn't exist".format(reading_id))
     return reading
 
+def get_sensor_abort_if_doesnt_exist(sensor_name):
+    try:
+        sensor = Sensor.objects(name=sensor_name)[0] 
+    except:
+        abort(404, message="Sensor {} not registered in the database".format(sensor_name))
+    return sensor
 
 class Reading(Resource):
     @marshal_with(resource_fields)
@@ -67,33 +87,34 @@ class Reading(Resource):
         reading.temperature = args['temperature']
         reading.humidity = args['humidity']
         
-        reading.save
+        reading.save()
 
-        return reading, 201
+        return reading, 202
 
 
 class ReadingList(Resource):
     #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
     #Also implement fields.Url('readingid') to make the API "human browseable" 
-    @marshal_with(resource_fields)
+    @marshal_with(resourcelist_fields)
     def get(self, **kwargs):
-        readings = list(SensorReading.objects())
-        return readings, 200
+        readings = list(SensorReading.objects)
+        return {'readings' : list(readings)}, 200
 
     @marshal_with(resource_fields)
     def post(self, **kwargs):
         args = parser.parse_args()
-        room =  args['room']
+        sensor_name = args['sensor']
+        sensor_doc = get_sensor_abort_if_doesnt_exist(sensor_name)
         date = args['date']
-        reading_id = "{0}{1}".format(room, date.strftime("%Y%M%d%H%m%S%f"))
+        reading_id = "{0}{1}".format(sensor_doc.room, date.strftime("%Y%M%d%H%m%S%f"))
 
-        reading = SensorReading( 
+        reading = ThermHygReading( 
                         readingid = reading_id,
                         date = date,
-                        room = room,
+                        sensor = sensor_doc,
                         temperature = args['temperature'],
                         humidity = args['humidity']
         )
-        reading.save()
+        reading.save(cascade=True)
             
         return reading, 201

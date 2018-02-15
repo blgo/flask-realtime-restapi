@@ -70,4 +70,4 @@ Start Realtimeapp
 * Handle Websockets disconnect
 * Add basic error handling and logging (docker logs compatible)
 * Add "Sensor <-> Reading" data structure:
-    * We want to have a list of sensors and their rooms, which references SensorReadings: [Mongoengine Documentation](http://docs.mongoengine.org/tutorial.html#posts)
+    * We want to have a list of sensors and their rooms, which references Readings: [Mongoengine Documentation](http://docs.mongoengine.org/tutorial.html#posts)

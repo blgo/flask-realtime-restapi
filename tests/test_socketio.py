@@ -2,11 +2,12 @@ from realtimeapp import configure_app, app
 from realtimeapp.socketio import create_socketio, socketio
 from flask_socketio import SocketIOTestClient
 from mongoengine import connect
-from realtimeapp.models import SensorReading
+from realtimeapp.models import ThermHygReading
 import time
 from nose.tools import *
+from utils import TestDbUtils
 
-connect(is_mock=True)
+test_database = TestDbUtils()
 
 # Initialise app
 app = configure_app()
@@ -44,13 +45,14 @@ def test_charts_getdata():
     This test goes throught the get-data SocketIO event
     it runs trought the the data processing module readingstats.py
     '''
-    reading_1 = SensorReading(
-        room='backyard_test',
+    reading_1 = ThermHygReading(
+        sensor='Thremohygrometer',
         temperature=15,
         humidity=99,
         date='2018-01-05T15:48:11.893729',
         readingid = 'backyard_test_1201801051549'
     )
+
     reading_1.save()       # This will perform an insert
 
     namespace = "/charts"
@@ -62,3 +64,4 @@ def test_charts_getdata():
 
 
     assert items[1]['args'][0]['label'][0]
+
