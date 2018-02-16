@@ -3,14 +3,14 @@ from flask_restful import Resource, reqparse, abort, inputs
 from flask_restful import Resource, fields, marshal_with
 
 from . import api
-from ..models import SensorReading, return_all
+from ..models import SensorReading
 
 # Serialise response using fields and marshall_with 
 resource_fields = {
-    'room': fields.String(attribute='room'),
+    'room' : fields.String,
     'temperature': fields.Float,
     'humidity': fields.Float,
-    'date': fields.DateTime(dt_format='rfc822')
+    'date': fields.DateTime(dt_format='iso8601'),
 }
 
 # REST API input data is parsed using reqparser
@@ -75,8 +75,10 @@ class Reading(Resource):
 class ReadingList(Resource):
     #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
     #Also implement fields.Url('readingid') to make the API "human browseable" 
-    def get(self):
-        return return_all()
+    @marshal_with(resource_fields)
+    def get(self, **kwargs):
+        readings = list(SensorReading.objects())
+        return readings, 200
 
     @marshal_with(resource_fields)
     def post(self, **kwargs):

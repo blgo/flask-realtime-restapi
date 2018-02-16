@@ -32,7 +32,23 @@ def test_addreading():
                   "humidity" : 98})
          ,follow_redirects=True)
     
-     
+    
+    testapp.post('/sensor1', 
+        data=dict({"date" : "2018-02-05T15:49:11.193728",   
+                "room" : "test_backyard",
+                "temperature" : 45,
+                "humidity" : 98})
+        ,follow_redirects=True)
+
+
+    testapp.post('/sensor1', 
+        data=dict({"date" : "2018-02-05T15:59:11.193728",   
+                "room" : "test_backyard",
+                "temperature" : 45,
+                "humidity" : 98})
+        ,follow_redirects=True)
+
+
     data = rv.data.decode("utf-8")
 
     assert_equal('201 CREATED', rv._status)
@@ -41,7 +57,8 @@ def test_addreading():
     rv = testapp.get('/sensor1', follow_redirects=True) 
     data = rv.data.decode("utf-8")
 
-    assert_in('test_backyard',data)
+    assert_in('{"room": "test_backyard", "temperature": 45.0, "humidity": 98.0, "date": "2018-01-05T15:49:11.193728"}, {"room": "test_backyard", "temperature": 45.0, "humidity": 98.0, "date": "2018-02-05T15:49:11.193728"}, {"room": "test_backyard", "temperature": 45.0, "humidity": 98.0, "date": "2018-02-05T15:59:11.193728"}]\n'
+    ,data)
 
     rv = testapp.post('/sensor1', 
         data=dict({"date" : "2018-01-0515:49:11.193728",   
@@ -49,9 +66,9 @@ def test_addreading():
                   "temperature" : 45,
                   "humidity" : 98})
     )
-     
+
     assert_equal('400 BAD REQUEST', rv._status)
-    
+
     # Add more data
     rv = testapp.post('/sensor1', 
         data=dict({"date" : "2018-01-06T15:49:11.193728",   
@@ -59,4 +76,3 @@ def test_addreading():
                   "temperature" : 45,
                   "humidity" : 98})
          ,follow_redirects=True)
-    
