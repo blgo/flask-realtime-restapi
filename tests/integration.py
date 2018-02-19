@@ -13,7 +13,7 @@ url = 'http://localhost/sensor1'
 date = datetime.datetime.now()
 datestr = date.isoformat()
 data = { "date" : datestr,
-        "room" : "bedroom", 
+        "sensor" : "sensor", 
         "temperature" : 10, 
         "humidity" : 10 } 
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
@@ -25,7 +25,7 @@ assert post.ok
 
 # GET from RESTapi
 datestr=date.strftime("%Y%M%d%H%m%S%f")
-reading_id = "{0}{1}".format("bedroom", datestr )
+reading_id = "{0}{1}".format("room", datestr )
 get = requests.get(url + '/' + reading_id)
 print(get)
 assert get.ok

@@ -20,7 +20,12 @@ if not environ.get('FLASK_DEBUG', None):
 else:
     connect('mongoengine_test', is_mock=True)
     print('Connected to mock database.')
-    
+
+#TODO: Run this on debug only?
+from realtimeapp.models import Sensor
+# The default sensor, for testing purposes
+sensor1 = Sensor(name='sensor', room='room')
+sensor1.save()
 
 
 if __name__ == '__main__':

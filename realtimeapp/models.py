@@ -16,14 +16,13 @@ from datetime import datetime, timedelta
 #     '''
 #     name = StringField(max_length=50, required=True)
 
-
 class Sensor(Document):
     '''
     Register sensor
     '''
     name = StringField(max_length=50, required=True)
     room = StringField(max_length=50, required=True)
-
+    
 
 class SensorReading(Document):
     sensor = ReferenceField(Sensor)
