@@ -82,8 +82,8 @@ class Reading(Resource):
         args = parser.parse_args()
         reading = abort_if_data_doesnt_exist(reading_id)
 
-        reading.temperature = args['temperature']
-        reading.humidity = args['humidity']
+        reading.temperature = float('{:.3}'.format(args['temperature']))
+        reading.humidity = float('{:.3}'.format(args['humidity']))
         
         reading.save()
 
@@ -108,10 +108,10 @@ class ReadingList(Resource):
 
         reading = ThermHygReading( 
                         readingid = reading_id,
-                        date = date,
+                        date = date.replace(microsecond=0),
                         sensor = sensor_doc,
-                        temperature = args['temperature'],
-                        humidity = args['humidity']
+                        temperature = float('{0:.2f}'.format(args['temperature'])),
+                        humidity = float('{0:.2f}'.format(args['humidity']))
         )
         reading.save(cascade=True)
             
