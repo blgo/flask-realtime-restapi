@@ -1,71 +1,43 @@
-from mongoengine import connect
-from realtimeapp.models import SensorReading, return_all, return_all_by_date
+
 from nose.tools import assert_equal, assert_raises
 import datetime
+from utils import TestDbUtils
+from realtimeapp.models import return_all, return_all_by_date
 
-connect(is_mock=True)
-readings_sample = {
-    'bedroom20181815170112298831': 
-    {'date': '2018-01-15 17:18:12.298831', 'room': 'bedroom', 'temperature': 20, 'humidity': 60},
-    'bedroom20181815170113326091': 
-    {'date': '2018-01-15 17:18:13.326091', 'room': 'bedroom', 'temperature': 11, 'humidity': 61}, 
-    'bedroom20181815170114343102':
-    {'date': '2018-01-15 17:18:14.343102', 'room': 'bedroom', 'temperature': 17, 'humidity': 57}
+test_database = TestDbUtils()
+reading_type_sample = {
+    'reading1' : {'sample' : 1}
 }
-
 
 def test_sensor_reading_save():
     '''
     Test models using MongoDB
     Create and Read data
     '''
+    db_reading1 = test_database.reading_1_doc
 
-    # Saving Documents
-    reading_1 = SensorReading(
-        room='backyard_test',
-        temperature=15,
-        humidity=99,
-        date=datetime.datetime.now().isoformat(),
-        readingid = 'backyard_test_1201801051548'
-    )
-    reading_1_doc = reading_1.save()       # This will perform an insert
+    assert_equal(db_reading1.sensor.room, 'backyard_test')
+    assert_equal(db_reading1.temperature, 15)
+    assert_equal(db_reading1.humidity, 99)
+    assert_equal(db_reading1.date, test_database.reading_1.date)
 
-    reading_2 = SensorReading(
-        room='backyard_test_2',
-        temperature=11.1,
-        humidity=51.5,
-        date=datetime.datetime.now().isoformat(),
-        readingid = 'backyard_test_220180105165021'
-    )
-    reading_2_doc = reading_2.save()
+    db_reading2 =  test_database.reading_2_doc
 
+    assert_equal(db_reading2.sensor.room, 'backyard_test')
+    assert_equal(db_reading2.temperature, 11.1)
+    assert_equal(db_reading2.humidity, 51.5)
+    assert_equal(db_reading2.date, test_database.reading_2.date)
 
-    assert_equal(reading_1_doc.room, 'backyard_test')
-    assert_equal(reading_1_doc.temperature, 15)
-    assert_equal(reading_1_doc.humidity, 99)
-    assert_equal(reading_1_doc.date, reading_1.date)
-
-    assert_equal(reading_2_doc.room, 'backyard_test_2')
-    assert_equal(reading_2_doc.temperature, 11.1)
-    assert_equal(reading_2_doc.humidity, 51.5)
-    assert_equal(reading_2_doc.date, reading_2.date)
 
 def test_sensor_reading_validation_error():
     '''
-    Test validation, validation should be triggered and save command fail
+    Test validation ThermHygReading
     '''
-    reading_3 = SensorReading(
-        room='backyard_test_3',
-        temperature='string',
-        humidity=51.5,
-        date='2018-01-05T16:50:21.114721',
-        readingid = 'backyard_test_3201801051650'
-    )
     
     with assert_raises(Exception) as e:
-        reading_3.save()
+        test_database.reading_3.save()
 
-    assert_equal(e.exception._message,'ValidationError (SensorReading:backyard_test_3201801051650) ') 
+    assert_equal(e.exception._message,'ValidationError (SensorReading.ThermHygReading:backyard_test_1234567859abe) ') 
 
 
 def test_return_all():
@@ -83,19 +55,10 @@ def test_return_all():
     }
     '''
 
-    reading_4 = SensorReading(
-        room='backyard_test_2',
-        temperature=11.1,
-        humidity=51.5,
-        date='2018-01-05T16:50:21.114721',
-        readingid = 'backyard_test_220180105165023'
-    )
-    reading_4.save()
-
     readings = return_all()
-    
-    assert_equal(type(readings), type(readings_sample))
-    assert_equal(readings.get('backyard_test_220180105165021')['humidity'],51.5) 
+
+    assert_equal(type(readings), type(reading_type_sample))
+    assert_equal(readings.get('backyard_test_1234567859abc')['humidity'],99) 
 
 
 def test_return_all_by_date():
@@ -103,6 +66,12 @@ def test_return_all_by_date():
     readings = return_all_by_date(days=1)
     
     # Make sure we get the readings are already serialized as a dictionary
-    assert_equal(type(readings), type(readings_sample))
-    # Verify that the data is in the results set
-    assert_equal(readings.get('backyard_test_220180105165021')['humidity'],51.5)
+    assert_equal(type(readings), type(reading_type_sample))
+    # Verify that the data is in the results set (<24h)
+    assert_equal(readings.get('backyard_test_1234567859abd')['humidity'],51.5)
+    # Verify that the data is NOT in the results set (>24h)
+    assert_equal(readings.get('backyard_test_1234567859abf', None), None)
+
+
+def test_nested_fields():
+    assert_equal(test_database.reading_4_doc.sensor.name, "Thermohydrometer")
