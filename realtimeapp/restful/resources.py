@@ -114,5 +114,5 @@ class ReadingList(Resource):
                         humidity = float('{0:.2f}'.format(args['humidity']))
         )
         reading.save(cascade=True)
-            
+
         return reading, 201
