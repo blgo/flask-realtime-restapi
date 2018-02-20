@@ -1,4 +1,4 @@
-from .restful.resources import ReadingList
+from .restful.resourcesreadings import ReadingList
 from .socketio.charts_events import emit_new_reading
 
 
@@ -6,7 +6,7 @@ from .socketio.charts_events import emit_new_reading
 # module with and without socketIO
 class ReadingListSocketioEvent(ReadingList):
     '''
-    Add SocketIO call on top of RESTful api resources   
+    Add SocketIO call on top of RESTful api resources sensors   
     '''
     
     def get(self):

@@ -21,11 +21,12 @@ else:
     connect('mongoengine_test', is_mock=True)
     print('Connected to mock database.')
 
-#TODO: Run this on debug only?
+# Add default sensor if it does not exists in MongoDB
 from realtimeapp.models import Sensor
-# The default sensor, for testing purposes
-sensor1 = Sensor(name='sensor', room='room')
-sensor1.save()
+sensor = Sensor.objects(name='sensor')
+if not sensor:
+    sensor = Sensor(room='room', name='sensor')
+    sensor.save()
 
 
 if __name__ == '__main__':

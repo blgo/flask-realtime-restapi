@@ -1,4 +1,4 @@
-from mongoengine import connect, Document, StringField, FloatField, DateTimeField, ReferenceField, queryset_manager
+from mongoengine import connect, Document, StringField, FloatField, DateTimeField, ReferenceField, queryset_manager, CASCADE
 from datetime import datetime, timedelta
 
 # Sensor dictionary for temperature/humidity reading
@@ -20,12 +20,12 @@ class Sensor(Document):
     '''
     Register sensor
     '''
-    name = StringField(max_length=50, required=True)
+    name = StringField(max_length=50, required=True, unique=True)
     room = StringField(max_length=50, required=True)
     
 
 class SensorReading(Document):
-    sensor = ReferenceField(Sensor)
+    sensor = ReferenceField(Sensor, reverse_delete_rule=CASCADE)
     date =  DateTimeField(required=True)
     readingid = StringField(max_length=50, primary_key=True, required=True)
 

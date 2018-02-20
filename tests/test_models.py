@@ -2,7 +2,7 @@
 from nose.tools import assert_equal, assert_raises
 import datetime
 from utils import TestDbUtils
-from realtimeapp.models import return_all, return_all_by_date, ThermHygReading, last_reading
+from realtimeapp.models import return_all, return_all_by_date, ThermHygReading, last_reading, Sensor
 
 test_database = TestDbUtils()
 reading_type_sample = {
@@ -83,3 +83,23 @@ def test_order_by_date():
 def test_last_reading():
     last_date_from_sample = test_database.reading_2.date
     assert_equal(last_reading()['date'].isoformat(),last_date_from_sample)
+
+def test_save_sensor():
+    
+    assert_equal(test_database.sensor1_doc.name,Sensor.objects(name='Thermohydrometer')[0].name)
+
+
+def test_delete_sensor():
+
+    # Check that the sensor readings exist for Thermohydrometer
+    assert_equal(ThermHygReading.objects(sensor=test_database.sensor1_doc)[0].sensor.name,"Thermohydrometer")
+
+    # Delete sensor
+    test_database.sensor1_doc.delete()
+
+    # Try to retrieve Thermohydrometer from database, it shouldn't exist 
+    assert not Sensor.objects(name='Thermohydrometer')
+
+    # delete reference fields using CASCADE is enabled, 
+    # all readings referencing that sensor are deleted
+    assert not ThermHygReading.objects(sensor=test_database.sensor1_doc)
