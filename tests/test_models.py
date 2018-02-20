@@ -2,7 +2,7 @@
 from nose.tools import assert_equal, assert_raises
 import datetime
 from utils import TestDbUtils
-from realtimeapp.models import return_all, return_all_by_date
+from realtimeapp.models import return_all, return_all_by_date, ThermHygReading, last_reading
 
 test_database = TestDbUtils()
 reading_type_sample = {
@@ -75,3 +75,11 @@ def test_return_all_by_date():
 
 def test_nested_fields():
     assert_equal(test_database.reading_4_doc.sensor.name, "Thermohydrometer")
+
+def test_order_by_date():
+    last_reading_from_sample = test_database.reading_2
+    assert_equal(ThermHygReading.order_by_date().first(),last_reading_from_sample)
+
+def test_last_reading():
+    last_date_from_sample = test_database.reading_2.date
+    assert_equal(last_reading()['date'].isoformat(),last_date_from_sample)

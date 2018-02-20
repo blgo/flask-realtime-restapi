@@ -41,7 +41,7 @@ def get_chart_data():
         readings_matrix = readings_to_matrix(THERMOHYGRO)
         transposed_readings = transpose_readings(readings_matrix)
         last=last_reading()
-        emit('last_reading', {'label': last['date'] , 'dataa':  last['temperature'], 'datab':  last['humidity'] }, last='/charts')
+        emit('last_reading', {'label': str(last['date']), 'dataa':  last['temperature'], 'datab':  last['humidity'] }, last='/charts')
         emit('my_chart_init', {'label': transposed_readings[1].tolist(),
              'dataa':  transposed_readings[2].tolist(),
              'datab':  transposed_readings[3].tolist() },

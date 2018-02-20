@@ -1,4 +1,4 @@
-from mongoengine import connect, Document, StringField, FloatField, DateTimeField, ReferenceField
+from mongoengine import connect, Document, StringField, FloatField, DateTimeField, ReferenceField, queryset_manager
 from datetime import datetime, timedelta
 
 # Sensor dictionary for temperature/humidity reading
@@ -31,11 +31,13 @@ class SensorReading(Document):
 
     meta = {'allow_inheritance': True}
 
+    @queryset_manager
+    def order_by_date(doc_cls, queryset):
+        return queryset.order_by('-date')
+
 
 # This class will be moved into the sensor specific Blueprint 
 class ThermHygReading(SensorReading):
-    #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
-    #Then, we could save date as a datetime object
     temperature = FloatField(required=True)
     humidity =  FloatField(required=True)
 
@@ -45,7 +47,6 @@ class ThermHygReading(SensorReading):
 def return_all():
     readings = {}
     for reading in SensorReading.objects:
-        #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
         data = reading._data
         reading_id = data.pop('readingid')
         data['date']=str(data.pop('date').isoformat())
@@ -57,7 +58,6 @@ def return_all_by_date(days):
     readings = {}
     datefilter = datetime.today() - timedelta(days)
     for reading in SensorReading.objects(date__gt=datefilter)[:3600]:
-        #TODO: Create resource_fields for returning a list of dictionaries from a list of reading objects 
         data = reading._data
         reading_id = data.pop('readingid')
         data['date']=str(data.pop('date').isoformat())
@@ -66,8 +66,4 @@ def return_all_by_date(days):
     return readings
 
 def last_reading():
-    
-    data = SensorReading.objects.last()._data
-    data['date']=str(data.pop('date').isoformat())
-    
-    return data 
+    return SensorReading.order_by_date().first()._data
