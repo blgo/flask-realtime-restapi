@@ -33,7 +33,7 @@ parser.add_argument('humidity',type=float ,
     help="<temperature> has to be a number 'float'")
 
 
-# curl http://localhost:5000/sensor1 -H "Content-Type: application/json" -d '{ "date" : "2018-01-05T15:48:11.893728",  "room" : "bedroom", "temperature" : 25, "humidity" : 51 }' -X POST 
+# curl http://localhost:5000/sensor1 -H "Content-Type: application/json" -d '{ "date" : "2018-01-05T15:48:11.893728",  "sensor" : "sensor", "temperature" : 25, "humidity" : 51 }' -X POST 
 # Python can generate this date: 
 # datetime.datetime.now().isoformat()
 
@@ -107,6 +107,6 @@ class ReadingList(Resource):
                         temperature = float('{0:.2f}'.format(args['temperature'])),
                         humidity = float('{0:.2f}'.format(args['humidity']))
         )
-        reading.save(cascade=True)
+        reading.save()
 
         return reading, 201
