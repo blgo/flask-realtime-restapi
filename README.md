@@ -1,5 +1,3 @@
-# NOTE: Currently the Sensors endpoint is not implemented, use sensor = "sensor" to register readings with the default sensor.
-
 [![Build Status](https://travis-ci.org/blgo/flask-realtime-restapi.svg?branch=master)](https://travis-ci.org/blgo/flask-realtime-restapi)
 
 ## Init virtual environment and Intall Python requirements
