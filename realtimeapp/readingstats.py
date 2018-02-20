@@ -38,7 +38,8 @@ def get_statistics_matrix(readings_matrix):
     argmin = np.argmin(float_matrix,axis=0)
     argmax = np.argmax(float_matrix,axis=0)
     median = np.median(float_matrix,axis=0)
-    percentile = np.percentile(float_matrix,axis=0,q=98)
+    percentile = 0
+    # percentile = np.percentile(float_matrix,axis=0,q=98)
 
     return mean, std, minimum, maximum, argmin, argmax, median, percentile
 

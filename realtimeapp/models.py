@@ -67,7 +67,7 @@ def return_all_by_date(days):
 
 def last_reading():
     
-    data = SensorReading.objects.first()._data
+    data = SensorReading.objects.last()._data
     data['date']=str(data.pop('date').isoformat())
     
     return data 
