@@ -24,7 +24,7 @@ parser.add_argument('room',type=inputs.regex('^\D+$'),
 parser.add_argument('name',type=inputs.regex('^\D+$'), 
      help="<name> has to be a word 'string' without spaces")
 
-# curl http://localhost:5000/sensor1 -H "Content-Type: application/json" -d '{ "date" : "2018-01-05T15:48:11.893728",  "room" : "bedroom", "temperature" : 25, "humidity" : 51 }' -X POST 
+# curl http://localhost:5000/reading1 -H "Content-Type: application/json" -d '{ "date" : "2018-01-05T15:48:11.893728",  "room" : "bedroom", "temperature" : 25, "humidity" : 51 }' -X POST 
 # Python can generate this date: 
 # datetime.datetime.now().isoformat()
 

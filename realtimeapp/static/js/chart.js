@@ -54,7 +54,7 @@ $(document).ready(function() {
                 options: {
                 title: {
                     display: true,
-                    text: 'Sensor1 temperature and humidity'
+                    text: 'Sensor temperature and humidity'
                     },
                 scales: {
                     xAxes: [{

@@ -26,7 +26,7 @@ def test_restfulapi():
     rv = testapp.get('/') 
     data = rv.data.decode("utf-8")
 
-    rv = testapp.post('/sensor1', 
+    rv = testapp.post('/reading', 
         data=dict({"date" : "2018-01-05T15:49:11.193728",   
                   "sensor" : "Thermohydrometer",
                   "temperature" : 45,
@@ -34,7 +34,7 @@ def test_restfulapi():
          ,follow_redirects=True)
     
     
-    testapp.post('/sensor1', 
+    testapp.post('/reading', 
         data=dict({"date" : "2018-02-05T15:49:11.193728",   
                 "sensor" : "Thermohydrometer",
                 "temperature" : 45,
@@ -42,7 +42,7 @@ def test_restfulapi():
         ,follow_redirects=True)
 
 
-    testapp.post('/sensor1', 
+    testapp.post('/reading', 
         data=dict({"date" : "2018-02-05T15:59:11.193728",   
                 "sensor" : "Thermohydrometer",
                 "temperature" : 45,
@@ -57,7 +57,7 @@ def test_restfulapi():
     # Check if the room is coming from the sensor registered in the database 
     assert_in("backyard_test",data)
 
-    rv = testapp.get('/sensor1', follow_redirects=True) 
+    rv = testapp.get('/reading', follow_redirects=True) 
     data = rv.data.decode("utf-8")
 
     # Check if the GET endpoint returns ALL the readings and check a few
@@ -67,7 +67,7 @@ def test_restfulapi():
     ,data_json.get('readings')[0]['readingid'])
 
 
-    rv = testapp.post('/sensor1', 
+    rv = testapp.post('/reading', 
         data=dict({"date" : "2018-01-0515:49:11.193728",   
                   "sensor" : "Thermohydrometer",
                   "temperature" : 45,
@@ -77,7 +77,7 @@ def test_restfulapi():
     assert_equal('400 BAD REQUEST', rv._status)
 
     # Add more data
-    rv = testapp.post('/sensor1', 
+    rv = testapp.post('/reading', 
         data=dict({"date" : "2018-01-06T15:49:11.193728",   
                   "sensor" : "Thermohydrometer",
                   "temperature" : 45,
@@ -86,7 +86,7 @@ def test_restfulapi():
 
 
     # Test add reading from unregistered sensor
-    rv = testapp.post('/sensor1', 
+    rv = testapp.post('/reading', 
         data=dict({"date" : "2018-02-05T15:49:11.193728",   
                 "sensor" : "Unregistered",
                 "temperature" : 45,
@@ -99,7 +99,7 @@ def test_restfulapi():
 
     # Test get existent reading
 
-    rv = testapp.get('/sensor1/backyard_test_1234567859abc',
+    rv = testapp.get('/reading/backyard_test_1234567859abc',
      follow_redirects=True)
     data = rv.data.decode("utf-8")
     data_json=json.loads(data)
@@ -109,7 +109,7 @@ def test_restfulapi():
 
     # Test get non existent reading by id
 
-    rv = testapp.get('/sensor1/this_id_doesnt_exists',
+    rv = testapp.get('/reading/this_id_doesnt_exists',
      follow_redirects=True)
 
     assert_equal('404 NOT FOUND', rv._status)
@@ -117,7 +117,7 @@ def test_restfulapi():
 
     # Test update existent reading by id
     
-    rv = testapp.put('/sensor1/backyard_test_1234567859abc', 
+    rv = testapp.put('/reading/backyard_test_1234567859abc', 
         data=dict({
             "sensor": "Thermohydrometer",
             "date": "2018-02-19T17:26:01.354902",

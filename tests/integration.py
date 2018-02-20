@@ -9,7 +9,7 @@ This test is design to run using a running Docker image, configured for
 '''
 
 # Setup Requests
-url = 'http://localhost/sensor1'
+url = 'http://localhost/reading'
 date = datetime.datetime.now()
 datestr = date.isoformat()
 data = { "date" : datestr,

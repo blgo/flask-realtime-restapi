@@ -18,8 +18,8 @@ def create_api(app):
     from .restful.resourcesreadings import Reading
     from .restful.resourcessensors import SensorList, SensorResource
 
-    api.add_resource(Reading, '/sensor1/<reading_id>')
-    api.add_resource(ReadingListSocketioEvent, '/sensor1')
+    api.add_resource(Reading, '/reading/<reading_id>')
+    api.add_resource(ReadingListSocketioEvent, '/reading')
 
     api.add_resource(SensorResource, '/sensor/<name>')
     api.add_resource(SensorList, '/sensor')
