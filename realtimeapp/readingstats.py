@@ -32,7 +32,8 @@ def get_statistics_matrix(readings_matrix):
     float_matrix = np.ndarray.astype(matrix_filtered,float)
 
     mean = np.mean(float_matrix,axis=0)
-    std = np.std(float_matrix,axis=0)
+    std = 0
+    # std = np.std(float_matrix,axis=0)
     minimum = np.min(float_matrix,axis=0)
     maximum = np.max(float_matrix,axis=0)
     argmin = np.argmin(float_matrix,axis=0)
