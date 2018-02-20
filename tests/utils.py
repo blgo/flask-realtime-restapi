@@ -19,8 +19,11 @@ class TestDbUtils(object):
         # }
 
         # Register a sensor
-        sensor1 = Sensor(room='backyard_test', name='Thermohydrometer')
-        self.sensor1_doc = sensor1.save()
+        self.sensor1_doc = Sensor.objects(name='Thermohydrometer')
+        if not self.sensor1_doc:
+            sensor1 = Sensor(room='backyard_test', name='Thermohydrometer')
+            self.sensor1_doc = sensor1.save()
+
 
         # Save test readings
         self.reading_1 = ThermHygReading(

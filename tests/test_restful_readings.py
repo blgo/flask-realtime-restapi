@@ -1,9 +1,9 @@
-from realtimeapp import configure_app
 from nose.tools import assert_equal, assert_in
 from mongoengine import connect
-from realtimeapp.restful.resources import ReadingList, Reading
+from realtimeapp.restful.resourcesreadings import ReadingList, Reading
 from realtimeapp.restful import api
 from utils import TestDbUtils 
+from main import app
 import json
 
 '''
@@ -16,13 +16,9 @@ test_database = TestDbUtils()
 
 def test_restfulapi():
     # Initialise Flask in test mode
-    app = configure_app()
     app.testing = True
 
-    # Initialise Flask-RESTful api
-    api.add_resource(ReadingList, '/sensor1')
-    api.add_resource(Reading, '/sensor1/<reading_id>')
-    api.init_app(app)
+
 
     # Initialise test client
     testapp = app.test_client()

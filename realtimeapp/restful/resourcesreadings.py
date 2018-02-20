@@ -8,10 +8,6 @@ from ..models import ThermHygReading, SensorReading, Sensor
 
 # Serialise response using fields and marshall_with 
 
-sensor_fields = {
-    'name' : fields.String,
-    'room' : fields.String
-}
 
 resource_fields = {
     'readingid' : fields.String,
