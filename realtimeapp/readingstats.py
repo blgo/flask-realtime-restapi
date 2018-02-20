@@ -18,7 +18,7 @@ def readings_to_matrix(raw_readings):
 
         readings_matrix.append([readingid, date, temperature, humidity])
     
-    return readings_matrix    
+    return readings_matrix
 
 def get_statistics_matrix(readings_matrix):
     '''
@@ -50,17 +50,17 @@ def generate_stats(raw_readings):
     readings_matrix = readings_to_matrix(raw_readings)
     stats = get_statistics_matrix(readings_matrix)
     stats = {
-                'tempmean': float('{0:.2f}'.format(stats[0][0])), 
-                'tempmedian': float('{0:.2f}'.format(stats[6][0])), 
+                'tempmean': float('{0:.2f}'.format(stats[0][0])),
+                'tempmedian': float('{0:.2f}'.format(stats[6][0])),
                 'tempmin': stats[2][0], 
-                'tempmindate': readings_matrix[stats[4][0]][1], 
+                'tempmindate': readings_matrix[stats[4][0]][1],
                 'tempmax': stats[3][0], 
-                'tempmaxdate': readings_matrix[stats[5][0]][1], 
+                'tempmaxdate': readings_matrix[stats[5][0]][1],
                 'hummean': float('{0:.2f}'.format(stats[0][1])),
                 'hummedian': float('{0:.2f}'.format(stats[6][1])),
                 'hummin': stats[2][1],
                 'hummindate': readings_matrix[stats[4][1]][1],
-                'hummax': stats[3][1], 
+                'hummax': stats[3][1],
                 'hummaxdate': readings_matrix[stats[5][1]][1]
                 }
 
@@ -75,5 +75,3 @@ def transpose_readings(readings_matrix):
 
     readings_array = conver_matrix_to_nparray(readings_matrix)
     return np.ndarray.transpose(readings_array)
-
-    
