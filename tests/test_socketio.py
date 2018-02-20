@@ -4,6 +4,7 @@ from flask_socketio import SocketIOTestClient
 from mongoengine import connect
 from realtimeapp.models import ThermHygReading
 import time
+import datetime
 from nose.tools import *
 from utils import TestDbUtils
 
@@ -62,6 +63,8 @@ def test_charts_getdata():
     time.sleep(2)
     items = testclient.get_received(namespace=namespace)
 
+    # Last_reading response:
+    datetime_test = datetime.datetime.now()
+    assert_equal(type(items[1]['args'][0]['label']),type(datetime_test))
 
-    assert items[1]['args'][0]['label'][0]
 
