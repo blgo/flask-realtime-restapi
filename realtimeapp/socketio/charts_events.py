@@ -1,4 +1,3 @@
-from flask import session
 from flask_socketio import emit
 from threading import Lock
 from . import socketio

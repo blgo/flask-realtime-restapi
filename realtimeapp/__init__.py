@@ -1,8 +1,11 @@
 from flask import Flask
 from .restful import api
 from .resources_extended import ReadingListSocketioEvent
+from .routes import charts_page
 
 app = Flask(__name__)
+
+app.register_blueprint(charts_page)
 
 
 def configure_app():

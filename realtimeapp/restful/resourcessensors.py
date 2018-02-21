@@ -1,4 +1,3 @@
-from flask import request
 from flask_restful import Resource, reqparse, abort, inputs
 from flask_restful import Resource, fields, marshal_with
 
