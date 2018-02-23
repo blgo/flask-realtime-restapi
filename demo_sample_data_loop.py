@@ -13,4 +13,5 @@ while True:
     data = { "date" : datetime.datetime.now().isoformat(), "sensor" : "sensor", "temperature" : str(randint(10, 20)), "humidity" : str(randint(45, 65)) } 
     print(json.dumps(data))
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-    requests.post(url, data=json.dumps(data), headers=headers)
+    rv = requests.post(url, data=json.dumps(data), headers=headers)
+    print(rv)

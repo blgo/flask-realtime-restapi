@@ -14,5 +14,6 @@ class ReadingListSocketioEvent(ReadingList):
 
     def post(self):
         result = super().post()
+        
         emit_new_reading(result[0])        
         return result

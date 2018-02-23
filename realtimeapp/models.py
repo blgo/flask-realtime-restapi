@@ -54,16 +54,23 @@ def return_all():
     
     return readings
 
-def return_all_by_date(days):
+def return_all_by_date(days, name):
     readings = {}
     datefilter = datetime.today() - timedelta(days)
-    for reading in SensorReading.objects(date__gt=datefilter)[:3600]:
-        data = reading._data
-        reading_id = data.pop('readingid')
-        data['date']=str(data.pop('date').isoformat())
-        readings[reading_id]=data
-    
-    return readings
+    sensor = Sensor.objects(name=name).first()
+    if sensor:
+        for reading in SensorReading.objects(date__gt=datefilter)[:3600].filter(sensor=sensor):
+            data = reading._data
+            reading_id = data.pop('readingid')
+            data['date']=str(data.pop('date').isoformat())
+            readings[reading_id]=data
+        return readings
+
+    else: 
+        return None
 
 def last_reading():
     return SensorReading.order_by_date().first()._data
+
+def get_sensor_name_from_readingid(readingid):
+    return SensorReading.objects(readingid=readingid).first().sensor.name

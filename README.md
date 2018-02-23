@@ -66,8 +66,7 @@ Start Realtimeapp
 ## TODO
 * Sanitase requirements.txt
 * Configure Docker image to run supervisor as a limited access user (currently running on ```root```).
-* Use blueprints for restful api and sockets IO in order to be able to create as many "sensor" endpoints as necesary without duplicating code. This might be a solution for mapping URL prefisex to different sensors/rooms on the REST API, SocketIO charts and Flask templated pages [Routes](http://flask.pocoo.org/docs/0.12/blueprints/)
-* Handle Websockets disconnect
 * Add basic error handling and logging (docker logs compatible)
-* Add "Sensor <-> Reading" data structure:
-    * We want to have a list of sensors and their rooms, which references Readings: [Mongoengine Documentation](http://docs.mongoengine.org/tutorial.html#posts)
+* Investigate [Signals](http://flask.pocoo.org/docs/0.12/signals/#signals-and-flask-s-request-context) for decoupling Flask-socketIO from Flask-restful applications
+* Implement flask-mongoengine for correct integration with flask contexts
+* Clean up code! make it DRY-er!

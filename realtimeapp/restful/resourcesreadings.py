@@ -1,4 +1,3 @@
-from flask import request
 from flask_restful import Resource, reqparse, abort, inputs
 from flask_restful import Resource, fields, marshal_with
 
@@ -53,7 +52,7 @@ def abort_if_data_doesnt_exist(reading_id):
 
 def get_sensor_abort_if_doesnt_exist(sensor_name):
     try:
-        sensor = Sensor.objects(name=sensor_name)[0] 
+        sensor = Sensor.objects(name=sensor_name)[0]
     except:
         abort(404, message="Sensor {} not registered in the database".format(sensor_name))
     return sensor
