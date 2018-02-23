@@ -71,3 +71,6 @@ def return_all_by_date(days, name):
 
 def last_reading():
     return SensorReading.order_by_date().first()._data
+
+def get_sensor_name_from_readingid(readingid):
+    return SensorReading.objects(readingid=readingid).first().sensor.name

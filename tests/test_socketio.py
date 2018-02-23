@@ -2,23 +2,25 @@ from realtimeapp import configure_app, app
 from realtimeapp.socketio import create_socketio, socketio
 from flask_socketio import SocketIOTestClient
 from mongoengine import connect
-from realtimeapp.models import ThermHygReading
+from realtimeapp.models import ThermHygReading, Sensor
 import time
 import datetime
 from nose.tools import *
 from utils import TestDbUtils
 
+
 test_database = TestDbUtils()
 
-# Initialise app
-app = configure_app()
+# # Initialise app
+# app = configure_app()
 
-# Initialise flask-socketio
-create_socketio(app)
-
+# # Initialise flask-socketio
+# create_socketio(app)
+from main import app
 
 def connect_client(namespace):
-    testclient = SocketIOTestClient(app, socketio,namespace,None,None)
+    
+    testclient = SocketIOTestClient(app, socketio, namespace, None, None)
     return testclient
 
 
@@ -46,24 +48,26 @@ def test_charts_getdata():
     This test goes throught the get-data SocketIO event
     it runs trought the the data processing module readingstats.py
     '''
+    sensor1_doc = Sensor.objects(name='sensor').first()
+
+    # Save test readings
     reading_1 = ThermHygReading(
-        sensor='Thremohygrometer',
+        sensor= sensor1_doc,
         temperature=15,
         humidity=99,
-        date='2018-01-05T15:48:11.893729',
-        readingid = 'backyard_test_1201801051549'
+        date= datetime.datetime.now().isoformat(),
+        readingid = 'backyard_test_1234567859acc'
     )
-
-    reading_1.save()       # This will perform an insert
+    reading_1_doc = reading_1.save() 
 
     namespace = "/charts"
     testclient = connect_client(namespace)
-    testclient.emit("get-data", namespace=namespace)
+    testclient.emit("get-data", namespace=namespace, room='sensor')
     testclient.disconnect(namespace)
     time.sleep(2)
     items = testclient.get_received(namespace=namespace)
 
     # events vary in order, to keep the test simple we only check that we receive something
-    assert items[1]['args'][0]['label']
-
+    
+    assert items[2]
 

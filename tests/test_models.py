@@ -63,7 +63,7 @@ def test_return_all():
 
 def test_return_all_by_date():
     test_sensor_reading_save()
-    readings = return_all_by_date(days=1)
+    readings = return_all_by_date(days=1,name='Thermohydrometer')
     
     # Make sure we get the readings are already serialized as a dictionary
     assert_equal(type(readings), type(reading_type_sample))
@@ -92,7 +92,7 @@ def test_save_sensor():
 def test_delete_sensor():
 
     # Check that the sensor readings exist for Thermohydrometer
-    assert_equal(ThermHygReading.objects(sensor=test_database.sensor1_doc)[0].sensor.name,"Thermohydrometer")
+    assert_equal(ThermHygReading.objects(sensor=test_database.sensor1_doc).first().sensor.name,"Thermohydrometer")
 
     # Delete sensor
     test_database.sensor1_doc.delete()
