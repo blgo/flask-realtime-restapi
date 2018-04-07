@@ -64,9 +64,9 @@ Start Realtimeapp
 
 
 ## TODO
-* Sanitase requirements.txt
-* Configure Docker image to run supervisor as a limited access user (currently running on ```root```).
-* Add basic error handling and logging (docker logs compatible)
-* Investigate [Signals](http://flask.pocoo.org/docs/0.12/signals/#signals-and-flask-s-request-context) for decoupling Flask-socketIO from Flask-restful applications
-* Implement flask-mongoengine for correct integration with flask contexts
-* Clean up code! make it DRY-er!
+Websockets charts module should not call the database directly. It should usethe API module to retrieve sensor data, readings, etc.
+This will require running this module as a separate application, following a Microservices like architecture.
+
+The application should be made out of 3 services:
+MongoDB <> REST API > Web UI & Websockets server
+(The Web UI is only for monitoring purposes and at the moment does not POST to the REST API)
