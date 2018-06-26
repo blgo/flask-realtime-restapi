@@ -77,7 +77,7 @@ $(document).ready(function() {
                         labelString: '°C',
                     },
                     ticks: {
-                        max: 25,
+                        max: 35,
                         min: -5
                     }
                     }, {
