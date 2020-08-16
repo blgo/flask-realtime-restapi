@@ -1,4 +1,5 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.6 
+FROM tiangolo/uwsgi-nginx-flask:python3.6
+MAINTAINER blgo
 RUN rm -R /app
 COPY . /app
 COPY entrypoint.sh /
