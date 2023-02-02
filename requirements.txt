@@ -35,5 +35,5 @@ six==1.11.0
 socketIO-client==0.7.2
 urllib3==1.26.5
 websocket-client==0.46.0
-Werkzeug==0.15.3
+Werkzeug==0.15.5
 wrapt==1.10.11
